@@ -25,6 +25,7 @@ import tldextract
 
 # Create your views here.
 
+
 load_dotenv()
 client = OpenAI()
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
@@ -34,6 +35,10 @@ NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY",)
 NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_MODEL = "nvidia/nemotron-3-nano-30b-a3b"
 
+
+
+def health(request):
+    return JsonResponse({"status": "ok"})
 
 
 def load_documents(user):
