@@ -1,0 +1,265 @@
+.faq-items-1 {
+    .accordion-box {
+        position: relative;
+        margin-top: 50px;
+        padding-top: 30px;
+
+        @include breakpoint (max-md){
+            margin-top: 30px;
+        }
+
+        .block {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            margin-bottom: 20px;
+            line-height: 1;
+            padding: 40px 30px;
+            border: 2px solid $white;
+            padding-left: 80px;
+
+             @include breakpoint (max-md){
+                line-height: 1.3;
+                padding: 20px 25px;
+                padding-left: 80px;
+            }
+
+            .acc-btn {
+                position: relative;
+                font-size: 22px;
+                color: $header-color;
+                font-weight: 600;
+                font-family: $heading-font;
+                cursor: pointer;
+                -webkit-transition: all 500ms ease;
+                transition: all 500ms ease;
+
+                @include breakpoint (max-xl){
+                    padding-right: 40px;
+                }
+
+                @include breakpoint (max-xxs){
+                    font-size: 17px;
+                }
+
+                .number {
+                   font-size: 22px;
+                   font-family: 600;
+                   color: $theme-color;
+                   position: absolute;
+                   top: 0;
+                   left: -50px;
+                }
+
+
+                .icon {
+                    position: absolute;
+                    right: 0;
+                    top: -5px;
+                    height: 35px;
+                    font-size: 16px;
+                    line-height: 18px;
+                    color: $white;
+                    -webkit-transition: all 500ms ease;
+                    transition: all 500ms ease;
+                    width: 35px;
+                    height: 35px;
+                    line-height: 35px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background: $header-color;
+                }
+            }
+
+            .acc-content {
+                position: relative;
+                display: none;
+                margin-top: 22px;
+
+                @include breakpoint (max-xxs){
+                    margin-top: 10px;
+                }
+
+                .content {
+                    position: relative;
+
+                    .text {
+                        line-height: 175%;
+
+                        @include breakpoint (max-xl){
+                            font-size: 14px;
+                        }
+
+                        @include breakpoint (max-xxs){
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .accordion-box .block .acc-content.current {
+        display: block;
+    }
+
+    .accordion-box .block .acc-btn.active .icon:before {
+        content: "\f00d";
+        
+    }
+
+     .accordion-box .block .acc-btn.active .icon {
+        background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+     }
+
+    // .accordion-box .block .acc-btn.active {
+    //     color: $theme-color;
+    // }
+
+    .accordion-box .block:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.faq-section {
+    .section-title-area {
+      @include breakpoint (max-lg){
+        justify-content: center;
+        text-align: center;
+      }
+    }
+}
+
+.faq-section-two {
+    .faq-image-two {
+        border-radius: 12px;
+        margin-top: 30px;
+
+        img {
+            @include imgw;
+            border-radius: 12px;
+        }
+    }
+}
+
+.faq-items-two {
+    .accordion-box {
+        position: relative;
+        margin-top: 30px;
+
+        .block {
+            position: relative;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            margin-bottom: 20px;
+            line-height: 1;
+            padding: 34px 30px;
+            border: 2px solid $white;
+            padding-left: 80px;
+
+             @include breakpoint (max-md){
+                line-height: 1.3;
+                padding: 20px 25px;
+                padding-left: 80px;
+            }
+
+            .acc-btn {
+                position: relative;
+                font-size: 22px;
+                color: $header-color;
+                font-weight: 600;
+                font-family: $heading-font;
+                cursor: pointer;
+                -webkit-transition: all 500ms ease;
+                transition: all 500ms ease;
+
+                @include breakpoint (max-xl){
+                    padding-right: 40px;
+                }
+
+                @include breakpoint (max-xxs){
+                    font-size: 17px;
+                }
+
+                .number {
+                   font-size: 22px;
+                   font-family: 600;
+                   color: $theme-color;
+                   position: absolute;
+                   top: 0;
+                   left: -50px;
+                }
+
+
+                .icon {
+                    position: absolute;
+                    right: 0;
+                    top: -5px;
+                    height: 35px;
+                    font-size: 16px;
+                    line-height: 18px;
+                    color: $white;
+                    -webkit-transition: all 500ms ease;
+                    transition: all 500ms ease;
+                    width: 35px;
+                    height: 35px;
+                    line-height: 35px;
+                    text-align: center;
+                    border-radius: 50%;
+                    background: $header-color;
+                }
+            }
+
+            .acc-content {
+                position: relative;
+                display: none;
+                margin-top: 22px;
+
+                @include breakpoint (max-xxs){
+                    margin-top: 10px;
+                }
+
+                .content {
+                    position: relative;
+
+                    .text {
+                        line-height: 175%;
+
+                        @include breakpoint (max-xl){
+                            font-size: 14px;
+                        }
+
+                        @include breakpoint (max-xxs){
+                            font-size: 13px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .accordion-box .block .acc-content.current {
+        display: block;
+    }
+
+    .accordion-box .block .acc-btn.active .icon:before {
+        content: "\f00d";
+        
+    }
+
+     .accordion-box .block .acc-btn.active .icon {
+        background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+     }
+
+    // .accordion-box .block .acc-btn.active {
+    //     color: $theme-color;
+    // }
+
+    .accordion-box .block:last-child {
+        margin-bottom: 0;
+    }
+}

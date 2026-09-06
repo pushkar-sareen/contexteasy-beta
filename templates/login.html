@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+{% load socialaccount %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <!-- <div class="col-md-7 col-lg-6"> -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-success text-white text-center py-3">
+                    <h4 class="mb-0">Login with Google</h4>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-grid gap-2">
+                        <a href="{% provider_login_url 'google' %}?next=/chat/" class="btn btn-outline-dark btn-lg">
+                            <img
+                                src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+                                width="22"
+                                class="me-2"
+                                alt="Google"
+                            >
+                            Continue with Google
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+{% endblock %}

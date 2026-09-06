@@ -1,0 +1,64 @@
+/*======================================================================================
+Theme Name: Synex 
+Author: gramentheme
+Author URI: https://themeforest.net/user/gramentheme/portfolio
+Description: Synex - Saas, Software & Startup HTML Template 
+Version: 1.0.0
+=======================================================================================*/
+
+/*======================================================================================
+  >> TABLE OF CONTENTS <<
+========================================================================================
+01. Mixins & Variables
+02. Base
+03. Components
+04. Layouts
+05. Sections
+======================================================================================*/
+
+/*---------------------------------------
+01. Mixins & Variables
+---------------------------------------*/
+@import "_mixins";
+@import "_variables";
+
+/*---------------------------------------
+02. Base
+---------------------------------------*/
+@import "_typography";
+@import "_buttons";
+
+/*---------------------------------------
+03. Components
+---------------------------------------*/
+@import "_preloader";
+@import "_animation";
+
+/*---------------------------------------
+04. Layouts
+---------------------------------------*/
+@import "_header";
+@import "_footer";
+@import "_section";
+
+/*---------------------------------------
+05. Sections
+---------------------------------------*/
+@import "_hero";
+@import "_about";
+@import "_feature";
+@import "_service";
+@import "_testimonial";
+@import "_pricing";
+@import "_project";
+@import "_news";
+@import "_faq";
+@import "_marque";
+@import "_cta";
+@import "_contact";
+@import "_helping";
+@import "_shop";
+
+
+
+

@@ -1,0 +1,284 @@
+.pricing-box-items {
+    margin-top: 30px;
+    background-color: $bg-color;
+    border-radius: 8px;
+    border: 1px solid #E6E8EB;
+    padding: 40px 30px;
+    border: 2px solid $white;
+    @include transition;
+
+    .pricing-header {
+        margin-bottom: 30px;
+
+        .sub-price {
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: capitalize;
+            display: inline-block;
+            margin-bottom: 20px;
+            color: $header-color;
+        }
+
+        .price-text {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 64px;
+            font-weight: 600;
+            letter-spacing: -3px;
+            line-height: 1;
+            margin-bottom: 25px;
+
+            @include breakpoint (max-xxl){
+                font-size: 55px;
+            }
+
+            sub {
+                font-size: 16px;
+                font-weight: 500;
+                color: $header-color;
+                letter-spacing: initial;
+                margin-left: 0;
+            }
+        }
+    }
+
+    .theme-btn {
+        width: 100%;
+        @include flex;
+        justify-content: space-between;
+        font-size: 18px;
+        font-weight: 600;
+        background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+        border-radius: 50px;
+        padding: 6px;
+        color: $white;
+        padding-left: 24px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s ease;
+        text-transform: capitalize;
+
+        // Shine Effect
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -75%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.35) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: skewX(-25deg);
+            transition: all 0.75s ease;
+        }
+
+        .icon {
+            width: 46px;
+            height: 46px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+            transition: all 0.4s ease;
+            color: #fff;
+
+            background: linear-gradient(
+                129.97deg,
+                #2D3238 16.23%,
+                #15171A 84.69%
+            );
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                padding: 2px;
+                z-index: -1;
+
+                background: linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 1),
+                    rgba(255, 255, 255, 0) 50%,
+                    rgba(255, 255, 255, 0.8)
+                );
+
+                -webkit-mask:
+                    linear-gradient(#fff 0 0) content-box,
+                    linear-gradient(#fff 0 0);
+
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+
+                opacity: 0.7;
+                pointer-events: none;
+            }
+        }
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 123, 255, 0.25);
+
+            &::after {
+                left: 130%;
+            }
+
+            .icon {
+                transform: rotate(-45deg) scale(1.08);
+                background: linear-gradient(
+                    129.97deg,
+                    #3A4048 16.23%,
+                    #1B1E22 84.69%
+                );
+            }
+        }
+    }
+   
+    .pricing-list {
+        margin-top: 30px;
+
+        span {
+            font-size: 16px;
+            font-weight: 500;
+            color: $header-color;
+
+            @include breakpoint (max-xl){
+                letter-spacing: inherit;
+            }
+        }
+
+        ul {
+            margin-top: 20px;
+
+            li {
+                color: $text-color;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: -1px;
+                @include flex;
+                gap: 8px;
+
+                i {
+                    font-size: 18px;
+                    color: $header-color;
+                }
+
+                &:not(:last-child){
+                    margin-bottom: 15px;
+                }
+            }
+        }
+    }
+
+    &:hover {
+        transform: translateY(-15px);
+    }
+
+    &.style-3 {
+        .pricing-header {
+            h3 {
+                color: $white;
+                
+                sub {
+                    color: $white;
+                }
+            }
+        }
+        .pricing-list {
+            ul {
+                li {
+                    color: $white;
+                }
+            }
+        }
+    }
+}
+
+.pricing-section {
+    .pricing-toggle-wrapper {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        height: 60px;
+        line-height: 60px;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+        border-radius: 72px;
+        padding: 4px;
+        border: 2px solid $white;
+        margin-top: 30px;
+
+        span {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0;
+            right: 0; bottom: 0;
+            background-color: #ddd;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+        }
+
+        input:checked + .slider {
+        background-color: $theme-color;
+        }
+
+        input:checked + .slider:before {
+        transform: translateX(26px);
+        }
+
+        .toggle-label {
+            padding: 0;
+            height: 47px;
+            line-height: 47px;
+            padding: 0 32px;
+            font-size: 16px;
+            font-weight: 600;
+            color: $header-color;
+            border-radius: 66.667px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .toggle-label.active {
+            background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+            color: $white;
+        }
+    }
+
+    .price {
+        transition: opacity .3s ease;
+    }
+    .price.fade-out {
+        opacity: 0;
+    }
+    .price.fade-in {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Homepage
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card upload-card">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="upload-section">
+                <h3>📄 Upload Documents</h3>
+                <div class="drop-zone" id="dropZone">
+                    <input type="file" id="fileInput" name="documents" multiple
+                        accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx" hidden>
+                    <label for="fileInput" class="file-upload-btn">
+                        📄 Choose Files
+                    </label>
+                    <br><br>
+                    <button type="submit">
+                        Upload
+                    </button>
+                </div>
+            </div>
+        </form>
+
+
+
+        <div class="card mt-3">
+            <div class="card-header py-2">
+                <strong>Uploaded Files</strong>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                {% for file in file_names %}
+                <li class="list-group-item py-1 px-3 d-flex justify-content-between">
+                    <span class="small">
+                        📄 {{ file.file.name|cut:"uploads/" }}
+                    </span>
+                    <a href="{% url 'delete_file' file.id %}" class="btn btn-sm btn-outline-danger py-0 px-2">
+                        &times;
+                    </a>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted small">
+                    No files uploaded
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <hr>
+
+        <div class="youtube-section">
+            <h3>🎥 YouTube Videos</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="youtube-input">
+                    <input type="url" id="youtubeUrl" name="youtube" placeholder="https://www.youtube.com/watch?v=...">
+                    <button type="submit">
+                        Add Video
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header py-2">
+                <strong>Uploaded Videos</strong>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                {% for link in youtube_link %}
+                <li class="list-group-item py-1 px-3 d-flex justify-content-between">
+                    <span class="small">
+                        🎥 {{ link.title }}
+                    </span>
+                    <a href="{% url 'delete_link' link.id %}" class="btn btn-sm btn-outline-danger py-0 px-2">
+                        &times;
+                    </a>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted small">
+                    No video uploaded
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+
+        <!-- url    -->
+        <div class="url-section">
+            <h3>🎥 URL Data</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="youtube-input">
+                    <input type="url" id="youtubeUrl" name="url" placeholder="https://www.google.com/">
+                    <button type="submit">
+                        Add URL
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header py-2">
+                <strong>Uploaded Link</strong>
+            </div>
+
+            <ul class="list-group list-group-flush">
+                {% for link in url_link %}
+                <li class="list-group-item py-1 px-3 d-flex justify-content-between">
+                    <span class="small">
+                        🎥 {{ link.name }}
+                    </span>
+                    <a href="{% url 'delete_url' link.id %}" class="btn btn-sm btn-outline-danger py-0 px-2">
+                        &times;
+                    </a>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted small">
+                    No url uploaded
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <div class="card chat-card">
+        <h2>
+            Chat
+        </h2>
+        
+
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-danger" href="{% url 'logout' %}">
+                Logout
+            </a>
+        {% else %}
+            <a class="btn btn-outline-success" href="{% url 'login' %}">
+                Login
+            </a>
+        {% endif %}
+
+
+        <!-- <div class="chat-box" id="chatBox">
+        {% for chat in chat_data %}
+        
+            {% if chat_data %}
+            <div class="message bot">
+                {{ chat.response}}
+            </div>
+            <div class="message user">
+                {{ chat.user_input }}
+            </div>
+            {% else %}
+            <div class="message bot">
+                Hello! How can I assist you today?
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div> -->
+
+        <div class="chat-box" id="chatBox">
+            {% if chat_data %} 
+                {% for chat in chat_data %}
+                <div class="message user"> 
+                    {{ chat.user_input }}
+                </div>
+                <div class="message bot"> 
+                    {{ chat.response }} 
+                </div>
+                {% endfor %}
+            {% else %}
+            <div class="message bot">
+                Hello! How can I assist you today? </div>
+            {% endif %}
+        </div>
+
+
+
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Ask something...">
+            <button id="sendBtn"> Submit </button>
+        </div>
+        <hr>
+
+        <a href="{% url 'delete_chat' %}" class="btn btn-danger">
+            Delete Chat
+        </a>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    const input = document.getElementById("messageInput");
+    const button = document.getElementById("sendBtn");
+    const chatBox = document.getElementById("chatBox");
+    const csrfToken = document.querySelector(
+        '[name=csrfmiddlewaretoken]'
+    ).value;
+
+    function addMessage(text, type) {
+        const message = document.createElement("div");
+        message.className = "message " + type;
+        message.textContent = text;
+        chatBox.appendChild(message);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    button.addEventListener("click", function () {
+        let message = input.value.trim();
+        if (message === "") {
+            return;
+        }
+        addMessage(message, "user");
+        input.value = "";
+        fetch("", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrfToken,
+                "Content-Type":
+                    "application/x-www-form-urlencoded"
+            },
+            body:
+                "user=" + encodeURIComponent(message)
+        })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.answer, "bot");
+            })
+            .catch(error => {
+                console.log(error);
+                addMessage(
+                    "Error connecting to server",
+                    "bot"
+                );
+            });
+    });
+
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            button.click();
+        }
+    });
+
+</script>
+
+
+{% endblock %}

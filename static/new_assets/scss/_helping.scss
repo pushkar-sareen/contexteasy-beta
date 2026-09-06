@@ -1,0 +1,331 @@
+//page scroll bar add
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px #fff; 
+	border-radius: 5px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+	border-radius: 0;
+}
+//page scroll bar add
+
+
+.array-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 999;
+
+    .array-prev,.array-next {
+        border-radius: 100px;
+        border: 1px solid rgba(59, 130, 246, .20);
+        width: 54px;
+        height: 54px;
+        line-height: 54px;
+        text-align: center;
+        border-radius: 50%;
+        color: #3B82F6;
+        @include transition;
+        cursor: pointer;
+        font-size: 15px;
+        
+
+        &:hover {
+            background-color: $theme-color;
+            color: $white;
+        }
+    }
+}
+//pagination default
+
+.swiper-dot {
+  position: relative;
+  .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      transition: 0.6s;
+      background-color: #111827;
+      opacity: 1;
+      border-radius: 10px;
+      &:not(:last-child){
+      margin-right: 5px;
+      }
+  }
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background-color: $theme-color;
+      transition: 0.6s;
+      position: relative;
+  }
+
+}
+
+
+.bg-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-position: center;
+}
+
+.fix {
+  overflow: hidden;
+}
+
+.ralt{
+ position: relative;
+}
+
+
+.gt-slide-transtion {
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
+}
+.gt-brand-slide-element {
+	width: auto;
+	display: inline-block;
+}
+
+.p-relative {
+  position: relative;
+}
+
+
+
+/* ================================
+   Split Text Styles
+================================ */
+
+
+.split-title .word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* char animation */
+.split-title .char {
+  display: inline-block;
+  transform-origin: left center;
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+}
+
+.body-bg-2 {
+  background-color: #FFFCF8;
+}
+
+.array-buttons {
+  @include flex;
+  gap: 8px;
+
+  .array-prev,.array-next {
+    @include transition;
+    &:hover {
+      color: $theme-color;
+    }
+  }
+}
+
+.page-nav-wrap {
+    margin-top: 50px;
+
+    ul {
+        li {
+            display: inline-block;
+
+            &.active {
+
+                .page-numbers {
+                    background-color: $theme-color;
+                    color: $white;
+                }
+            }
+
+            .page-numbers {
+                &.current {
+                    background-color: $theme-color;
+                    color: $white;
+                }
+
+                display: inline-block;
+                width: 48px;
+                height: 48px;
+                text-align: center;
+                line-height: 48px;
+                border-radius: 0;
+                background: transparent;
+                color: $header-color;
+                font-weight: 600;
+                transition: all 0.3s ease-in-out;
+                margin: 0 2px;
+                border-radius: 100px;
+                font-family: $heading-font;
+                font-size: 16px;
+                border: 1px solid rgba(21, 23, 26, 0.12);
+
+                @media (max-width: 767px) {
+                    margin-top: 10px;
+                    width: 40px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-size: 14px;
+                }
+
+                i {
+                    margin-top: 2px;
+                    color: $header-color;
+                    @include transition;
+                    font-size: 16px;
+                }
+
+                &:hover {
+                    background-color: $theme-color;
+                    color: $white;
+
+                    i {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.z-index-1{
+	position: relative;
+	z-index: 1;
+}
+
+br {
+  @include breakpoint (max-lg){
+    display: none;
+  }
+}
+
+.swiper-dot {
+  position: relative;
+  .swiper-pagination-bullet {
+      width: 8px;
+      height: 8px;
+      transition: 0.6s;
+      background-color: #03070D;
+      opacity: 1;
+      border-radius: 8px;
+      &:not(:last-child){
+      margin-right: 5px;
+      }
+  }
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
+      background-color: $theme-color;
+      transition: 0.6s;
+      position: relative;
+  }
+
+}
+
+.jump-anim,
+.studio-text {
+  display: inline-block;
+}
+
+.p-relative {
+  position: relative;
+}
+
+
+
+.sec-line-shape {
+    img {
+        width: 100%;
+    }
+}
+
+.image-distortion{
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    &  canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+    }
+}
+
+/* ================================
+   CLIP ANIMATION STYLE
+================================ */
+
+.tp-clip-anim {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+}
+
+.tp-clip-anim .tp-anim-img {
+    width: 100%;
+    display: block;
+    opacity: 0; /* hide original */
+}
+
+/* mask base */
+.tp-clip-anim .mask {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transform: scale(1.1);
+    opacity: 0;
+    animation: reveal 1s forwards;
+    will-change: transform, opacity;
+}
+
+/* 9 slice animation */
+.mask-1 { clip-path: inset(0 88.8% 0 0%); animation-delay: 0.1s; }
+.mask-2 { clip-path: inset(0 77.7% 0 11.1%); animation-delay: 0.2s; }
+.mask-3 { clip-path: inset(0 66.6% 0 22.2%); animation-delay: 0.3s; }
+.mask-4 { clip-path: inset(0 55.5% 0 33.3%); animation-delay: 0.4s; }
+.mask-5 { clip-path: inset(0 44.4% 0 44.4%); animation-delay: 0.5s; }
+.mask-6 { clip-path: inset(0 33.3% 0 55.5%); animation-delay: 0.6s; }
+.mask-7 { clip-path: inset(0 22.2% 0 66.6%); animation-delay: 0.7s; }
+.mask-8 { clip-path: inset(0 11.1% 0 77.7%); animation-delay: 0.8s; }
+.mask-9 { clip-path: inset(0 0% 0 88.8%); animation-delay: 0.9s; }
+
+/* animation */
+@keyframes reveal {
+    from {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.text_invert > div {
+  background-image: linear-gradient(to right, rgb(137, 137, 137) 50%, rgb(137, 137, 137) 50%);
+  background-size: 200% 100%;
+  background-position-x: 100%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.text_invert-2 > div {
+  background-image: linear-gradient(to right, rgb(255, 255, 255) 50%, rgb(137, 137, 137) 50%);
+  background-size: 200% 100%;
+  background-position-x: 100%;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+

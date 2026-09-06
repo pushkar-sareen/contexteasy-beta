@@ -1,0 +1,195 @@
+.contact-us-wrapper {
+
+    .contact-us-content {
+
+        .contact-us-item {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(21, 23, 26, 0.1);
+            border-bottom: 1px solid rgba(21, 23, 26, 0.1);
+            padding-top: 60px;
+            margin-top: 150px;
+            position: relative;
+            padding-bottom: 60px;
+
+            @include breakpoint (max-xxl) {
+                margin-top: 30px;
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+
+             @include breakpoint (max-lg) {
+               flex-wrap: wrap;
+               gap: 30px;
+            }
+
+            &::before {
+                position: absolute;
+                content: "";
+                height: 100%;
+                width: 1px;
+                background-color: rgba(21, 23, 26, 0.1);
+                left: 290px;
+                top: 0;
+
+                @include breakpoint (max-xxl) {
+                    display: none;
+                }
+            }
+
+            .contact-content {
+
+                .icon {
+                    width: 80px;
+                    height: 80px;
+                    line-height: 80px;
+                    background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+                    border-radius: 40px;
+                    margin-bottom: 30px;
+                    text-align: center;
+                }
+
+                .cont {
+                    span {
+                        color: #000000;
+                        display: inline-block;
+                        margin-bottom: 30px;
+
+                         @include breakpoint (max-xxl) {
+                           margin-bottom: 20px;
+                        }
+                    }
+
+                    h3 {
+                        font-size: 20px;
+                        font-weight: 600;
+                        letter-spacing: -0.02em;
+                        line-height: 150%;
+                    }
+                }
+            }
+        }
+    }
+
+    .contact-box {
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+        border-radius: 12px;
+        border: 2px solid $white;
+        padding: 60px 30px;
+        margin-left: 40px;
+
+        @include breakpoint (max-xxl) {
+            margin-left: 0;
+            padding: 30px;
+        }
+
+        h3 {
+            font-size: 32px;
+            margin-bottom: 30px;
+
+             @include breakpoint (max-xxl) {
+               font-size: 20px;
+            }
+        }
+
+        .form-clt {
+            input,textarea {
+                outline: none;
+                width: 100%;
+                color: $header-color;
+                padding: 16px 25px;
+                background: transparent;
+                border: 1px solid rgba(21, 23, 26, 0.1);
+                text-transform: capitalize;
+                color: rgba(21, 23, 26, 0.7);
+                border-radius: 8px;
+
+                &::placeholder {
+                    color: rgba(21, 23, 26, 0.7);
+                }
+            }
+
+            textarea {
+                padding-bottom: 170px;
+
+                @include breakpoint (max-xxl) {
+                    padding-bottom: 120px;
+                }
+            }
+         }
+    }
+}
+
+.contact-us-section {
+     border-top: 1px solid rgba(21, 23, 26, 0.1);
+}
+
+.contact-box-item {
+    @include flex;
+    gap: 28px;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+    border-radius: 8px;
+    border: 2px solid $white;
+
+    @include breakpoint (max-xxl) {
+        flex-wrap: wrap;
+    }
+
+    .contact-image {
+        @include breakpoint (max-xxl) {
+            flex-basis: 100%;
+        }
+
+        img {
+            @include imgw;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+
+            @include breakpoint (max-xxl) {
+                border-radius: 8px;
+            }
+        }
+    }
+
+    .contact-content {
+       @include breakpoint (max-xxl) {
+            padding-left: 25px;
+            padding-bottom: 25px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            max-width: 260px;
+            font-size: 16px;
+        }
+
+        .view-btn {
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #15171A;
+            border-bottom: 2px solid $header-color;
+            margin-top: 25px;
+            margin-bottom: 30px;
+
+            i {
+                margin-left: 5px;
+            }
+        }
+
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+
+            a {
+                color: #15171A;
+            }
+        }
+    }
+}

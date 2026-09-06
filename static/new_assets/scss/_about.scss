@@ -1,0 +1,276 @@
+.about-wrapper {
+    .about-image {
+        max-width: 490px;
+        border-radius: 8px;
+        margin-top: 30px;
+
+        @include breakpoint (max-lg){
+            max-width: initial;
+        }
+
+        img {
+            @include imgw;
+            border-radius: 8px;
+        }
+    }
+
+    .about-content {
+        border-radius: 8px;
+        background: linear-gradient(94.68deg, rgba(255, 255, 255, 0.04) 7.02%, rgba(255, 255, 255, 0.09) 90.21%);
+        backdrop-filter: blur(15px);
+        padding: 70px 34px;
+        margin-top: 30px;
+        @include flex;
+        justify-content: space-between;
+
+        @include breakpoint (max-xxl){
+            padding: 50px 28px;
+            gap: 30px;
+        }
+
+        @include breakpoint (max-xl){
+           flex-wrap: wrap;
+        }
+
+        .icon-items {
+            max-width: 275px;
+            border-right: 1px solid rgba(255, 255, 255, .1);
+
+            @include breakpoint (max-xxl){
+                border-right: none;
+                max-width: 300px;
+                width: 100%;
+            }
+
+            @include breakpoint (max-lg){
+                max-width: initial;
+            }
+
+            .icon {
+                margin-bottom: 74px;
+            }
+
+            h3 {
+                color: #fff;
+                font-size: 36px;
+            }
+
+            p {
+                color: #fff;
+                opacity: .75;
+                margin-top: 15px;
+            }
+        }
+
+        .content {
+            max-width: 366px;
+
+            @include breakpoint (max-lg){
+                max-width: initial;
+            }
+
+            p {
+                color: #fff;
+                opacity: .80;
+                 border-bottom: 1px solid rgba(255, 255, 255, .1);
+                 padding-bottom: 50px;
+                 margin-bottom: 50px;
+            }
+        }
+    }
+}
+
+.about-wrapper-4 {
+
+    .about-image {
+        img {
+            @include imgw;
+            border-radius: 12px;
+        }
+    }
+
+    .about-bg-box {
+        border-radius: 10px;
+
+        .box-content {
+            padding: 40px 30px 60px;
+
+            @include breakpoint (max-xxl) {
+                padding: 30px;
+            }
+
+            h2 {
+                color: $white;
+                font-size: 163px;
+
+                @include breakpoint (max-xxl) {
+                    font-size: 100px;
+                }
+            }
+
+            p {
+                color: $white;
+                font-size: 18px;
+                font-weight: 600;
+                letter-spacing: -2%;
+                max-width: 274px;
+                margin-bottom: 140px;
+
+                &.style-2 {
+                    margin-bottom: 240px;
+                    margin-top: 15px;
+                    max-width: 244px;
+                    color: rgba(255, 255, 255, 0.8);
+
+                    @include breakpoint (max-xxl) {
+                        margin-bottom: 130px;
+                    }
+
+                    @include breakpoint (max-md) {
+                        margin-bottom: 40px;
+                    }
+
+                    span {
+                        color: $white;
+                    }
+                }
+
+                 @include breakpoint (max-xxl) {
+                    margin-bottom: 70px;
+                }
+
+                @include breakpoint (max-lg) {
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+}
+
+.gt-about-wrapper-3 {
+    border-top: 1px solid rgba(104, 104, 102, 0.20);
+    margin-top: 65px;
+    position: relative;
+
+    .clicp-shape {
+        position: absolute;
+        left: 55%;
+        top: 16%;
+
+        @include breakpoint (max-xxl){
+            display: none;
+        }
+    }
+
+    .gt-about-content {
+        max-width: 650px;
+        .gt-text {
+            color: $text-color;
+            margin-top: 25px;
+        }
+
+        .gt-list-items {
+            margin-top: 35px;
+            position: relative;
+
+            &::before {
+                position: absolute;
+                top: 0;
+                left: 3px;
+                content: "";
+                width: 1px;
+                height: 100%;
+                background-color: rgba(104, 104, 102, 0.20);
+            }
+
+            li {
+                display: flex;
+                gap: 14px;
+
+                &:not(:last-child){
+                    margin-bottom: 35px;
+                }
+
+                .gt-circle-box {
+                    width: 11px;
+                    height: 11px;
+                    border-radius: 11px;
+                    background-color: $white;
+                    display: inline-block;
+                    position: relative;
+
+                    &::before {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        content: "";
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 5px;
+                        background-color: $theme-color;
+                    }
+                }
+
+                .gt-content {
+                    h3 {
+                        color: $header-color;
+                        font-family: $heading-font;
+                        font-size: 20px;
+                        font-weight: 700;
+                        margin-bottom: 10px;
+                    }
+
+                    span {
+                        color: #686866;
+                    }
+                }
+            }
+        }
+    }
+
+    .gt-about-image {
+        text-align: right;
+        position: relative;
+        z-index: 9;
+        width: 691px;
+        height: 692px;
+        line-height: 692px;
+        border-radius: 50%;
+        background-color: #C2D0FF;
+        overflow: hidden;
+
+        @include breakpoint (max-xxl){
+            width: 540px;
+            height: 540px;
+            line-height: 540px;
+        }
+
+        @include breakpoint (max-xl){
+            width: initial;
+            height: initial;
+            background-color: transparent;
+            line-height: initial;
+
+            img {
+                @include imgw;
+            }
+        }
+
+        // &::before {
+           
+        //     position: absolute;
+        //     top: 50%;
+        //     left: 50%;
+        //     content: "";
+        //     transform: translate(-50%,-50%);
+        // }
+       
+
+        .crm-image {
+           position: relative;
+           z-index: 1;
+           padding-top: 15px;
+        }
+    }
+}

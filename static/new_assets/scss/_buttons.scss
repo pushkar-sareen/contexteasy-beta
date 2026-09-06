@@ -1,0 +1,236 @@
+//>>>>> Component Button Here <<<<<//
+.theme-btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  transition: all 0.4s ease;
+  text-transform: capitalize;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &.style-2 {
+    background: linear-gradient(103.71deg, #5CABFF 17.96%, #007BFF 66.13%);
+    border-radius: 50px;
+    padding: 7px 25px;
+    padding-right: 7px;
+    position: relative;
+
+    // Glass Border
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.7)
+      );
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    // Blur Layer
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .theme-btn {
+      background-color: transparent;
+      padding: 0;
+      margin-right: 15px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .theme-btn-arrow-left,
+    .theme-btn-arrow-right {
+      width: 46px;
+      height: 46px;
+      background: linear-gradient(
+        129.97deg,
+        #2D3238 16.23%,
+        #15171A 84.69%
+      );
+      border-radius: 50%;
+      color: #fff;
+
+      img {
+        animation: cir36 10s linear infinite;
+      }
+    }
+
+    &:hover {
+      padding-right: 25px;
+      padding-left: 7px;
+
+      .theme-btn {
+        background-color: transparent;
+      }
+    }
+  }
+
+  .theme-btn-arrow-left,
+  .theme-btn-arrow-right {
+    width: 46px;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    transition: all 0.4s ease;
+
+    background: linear-gradient(
+      129.97deg,
+      #2D3238 16.23%,
+      #15171A 84.69%
+    );
+
+    // Circle Border
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 2px;
+
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 1),
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.8)
+      );
+
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    i {
+      font-weight: 400;
+      color: $white;
+    }
+  }
+
+  // Left Arrow
+  .theme-btn-arrow-left {
+    position: absolute;
+    left: 7px;
+
+    transform: translateX(-15px) scale(0);
+    opacity: 0;
+  }
+
+  // Right Arrow
+  .theme-btn-arrow-right {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .theme-btn {
+    background: $theme-color;
+    color: $white;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 13px 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 30px;
+    transition: all 0.4s ease;
+
+    @include breakpoint(max-sm) {
+      font-size: 14px;
+      padding: 10px 25px;
+    }
+  }
+
+  &:hover {
+
+    .theme-btn-arrow-left {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+
+      img {
+        animation: cir36 10s linear infinite;
+      }
+    }
+
+    .theme-btn-arrow-right {
+      transform: scale(0);
+      opacity: 0;
+
+      img {
+        animation: cir36 10s linear infinite;
+      }
+    }
+
+    .theme-btn {
+      transform: translateX(57px);
+      background-color: $header-color;
+    }
+  }
+}
+
+
+
+
+
+//>>>>> Component Button End <<<<<//
+
+
+@keyframes slideRight {
+    49% {
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+    50% {
+      opacity: 0;
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+    }
+    51% {
+      opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    49% {
+      -webkit-transform: translateY(-100%);
+      transform: translateY(-100%);
+    }
+    50% {
+      opacity: 0;
+      -webkit-transform: translateY(100%);
+      transform: translateY(100%);
+    }
+    51% {
+      opacity: 1;
+    }
+}

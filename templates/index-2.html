@@ -1,0 +1,1273 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <!--<< Header Area >>-->
+   <head>
+        <!-- ========== Meta Tags ========== -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="author" content="gramentheme">
+        <meta name="description" content="ContextIQ turns your scattered files, notes, links, and YouTube videos into one intelligent workspace. Dump everything, ask anything, get answers instantly.">
+        <!-- ======== Page title ============ -->
+        <title>ContextIQ - Dump. Ask. Solve. | AI Context Engine</title>
+        <!--<< Favcion >>-->
+        <link rel="shortcut icon" href="assets/img/favicon.svg">
+        <!--<< Bootstrap min.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/bootstrap.min.css'%}">
+        <!--<< All Min Css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/all.min.css'%}">
+        <!--<< Animate.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/animate.css'%}">
+        <!--<< Magnific Popup.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/magnific-popup.css'%}">
+        <!--<< Swiper Bundle.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/swiper-bundle.min.css' %}">
+        <!--<< Nice Select.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/nice-select.css' %}">
+        <!--<< Main.css >>-->
+        <link rel="stylesheet" href="{% static 'new_assets/css/main.css'%}">
+    </head>
+    <body>
+
+        <div class="page-wrapper">
+
+            <!-- Preloader Start -->
+            <div id="preloader">
+                <div class="hexus-loader-inner">
+                <div class="hexus-loader">
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                    <span class="hexus-loader-item"></span>
+                </div>
+                </div>
+            </div>
+
+            <!-- Back-To-Top Start -->
+            <button id="back-top" class="back-to-top">
+            <i class="fa-regular fa-arrow-up"></i>
+            </button>
+
+             <!-- GT MouseCursor Start -->
+            <div class="mouseCursor cursor-outer"></div>
+            <div class="mouseCursor cursor-inner"></div>
+            
+            <!-- Header Section Start -->
+            <header class="header-section header-1 header-2" id="sticky-header">
+                <div class="header-main">
+
+                    <!-- ===================== DESKTOP NAVBAR ===================== -->
+                    <nav class="navbar p-0 navbar-expand-xl d-none d-xl-flex">
+                        <a class="navbar-brand" href="index.html" >
+                                <img src="{% static 'images/logo.png' %}" alt="logo" style="height:100px; width:260px;">
+                            </a>
+
+                            <button class="navbar-toggler" type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#navbarSupportedContent"
+                                aria-controls="navbarSupportedContent"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                <ul class="navbar-nav mx-auto mb-lg-0">
+                                    <li class="nav-item menu-thumb">
+                                        <a class="nav-link active" href="#">
+                                            Home 
+                                        </a>
+                                        <!-- <ul class="sub-menu has-homemenu list-unstyled">
+                                            <li>
+                                                <div class="homemenu-items">
+                                                    <div class="row row-cols-xl-5 row-cols-md-2 row-cols-2">
+                                                        <div class="col homemenu">
+                                                            <div class="homemenu-thumb">
+                                                                <img src="{% static 'new_assets/img/header/home-1.jpg'%}" alt="img">
+                                                                <div class="demo-button">
+                                                                   <a class="theme-btn-main style-2" href="index.html">
+                                                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                        <span class="theme-btn">View Demo</span>
+                                                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="homemenu-content text-center">
+                                                                <div class="hometitle">
+                                                                    Home 01
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col homemenu">
+                                                            <div class="homemenu-thumb">
+                                                                <img src="{% static 'new_assets/img/header/home-2.jpg'%}" alt="img">
+                                                                <div class="demo-button">
+                                                                   <a class="theme-btn-main style-2" href="index-2.html">
+                                                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                        <span class="theme-btn">View Demo</span>
+                                                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="homemenu-content text-center">
+                                                                 <div class="hometitle">
+                                                                   Home 02
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col homemenu">
+                                                            <div class="homemenu-thumb">
+                                                                <img src="{% static 'new_assets/img/header/home-3.jpg'%}" alt="img">
+                                                                <div class="demo-button">
+                                                                   <a class="theme-btn-main style-2" href="index-3.html">
+                                                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                        <span class="theme-btn">View Demo</span>
+                                                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="homemenu-content text-center">
+                                                                 <div class="hometitle">
+                                                                   Home 03
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col homemenu">
+                                                            <div class="homemenu-thumb">
+                                                                <img src="{% static 'new_assets/img/header/home-4.jpg'%}" alt="img">
+                                                                <div class="demo-button">
+                                                                   <a class="theme-btn-main style-2" href="index-4.html">
+                                                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                        <span class="theme-btn">View Demo</span>
+                                                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="homemenu-content text-center">
+                                                                 <div class="hometitle">
+                                                                   Home 04
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col homemenu">
+                                                            <div class="homemenu-thumb">
+                                                                <img src="{% static 'new_assets/img/header/home-5.jpg' %}" alt="img">
+                                                                <div class="demo-button">
+                                                                   <a class="theme-btn-main style-2" href="index-5.html">
+                                                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                        <span class="theme-btn">View Demo</span>
+                                                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="homemenu-content text-center">
+                                                                 <div class="hometitle">
+                                                                   Home 05
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="about.html">About Us</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            Services 
+                                        </a>
+                                        <!-- <ul class="sub-menu list-unstyled">
+                                            <li><a href="service.html">Service Page</a></li>
+                                            <li><a href="service-details.html">Service Details</a></li>
+                                        </ul> -->
+                                    </li>
+                                    <li class="has-dropdown nav-item">
+                                        <a class="nav-link" href="javascript:void(0)">
+                                            Pages
+                                        </a>
+                                        <!-- <ul class="sub-menu list-unstyled">
+                                            <li class="has-dropdown">
+                                                <a href="javascript:void(0)">
+                                                    Portfolio <i class="fas fa-angle-right"></i>
+                                                </a>
+                                                <ul class="sub-menu list-unstyled">
+                                                    <li><a href="project.html">Portfolio page</a></li>
+                                                    <li><a href="project-details.html">Portfolio Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="has-dropdown">
+                                                <a href="javascript:void(0)">
+                                                    Team <i class="fas fa-angle-right"></i>
+                                                </a>
+                                                <ul class="sub-menu list-unstyled">
+                                                    <li><a href="team.html">Team page</a></li>
+                                                    <li><a href="team-details.html">Team Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="pricing.html">Pricing Page</a></li>
+                                            <li><a href="faq.html">Faq Page</a></li>
+                                            <li><a href="404.html">404 Error</a></li>
+                                        </ul> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">
+                                            Blog 
+                                        </a>
+                                        <!-- <ul class="sub-menu list-unstyled">
+                                            <li><a href="news-grid.html">Blog Grid</a></li>
+                                            <li><a href="news.html">Blog Standard</a></li>
+                                            <li><a href="news-details.html">Blog Details</a></li>
+                                        </ul> -->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="contact.html">Contact</a>
+                                    </li>
+                                </ul>
+                                <div class="menu-right-info">
+                                    <a class="theme-btn-main style-2" href="{% url 'chat' %}">
+                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                        <span class="theme-btn">Get started</span>
+                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                    </a>
+                                    <div class="sidebar__toggle offcanvas-btn d-xl-none my-auto">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                     </nav>
+                </div>
+                <div class="mobile-menu-area d-block d-xl-none">
+                    <div class="container">
+                        <div class="mobile-topbar">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="logo">
+                                    <a href="index.html">
+                                        <img src="{% static 'new_assets/img/logo/black-logo.svg'%}" alt="logo">
+                                    </a>
+                                </div>
+                                <div class="menu-search d-flex align-items-center gap-4">
+                                <div class="bars">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mobile-menu-overlay"></div>
+                    <div class="mobile-menu-main">
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="{% static 'new_assets/img/logo/white-logo.svg'%}" alt="logo">
+                            </a>
+                        </div>
+                        <div class="close-mobile-menu">
+                            <i class="fas fa-times"></i>
+                        </div>
+                        <div class="menu-body">
+                            <div class="menu-list">
+                                <ul class="list-unstyled">
+                                    <li class="sub-mobile-menu">
+                                        <a href="javascript:void(0)">
+                                            Home <i class="fas fa-chevron-down float-end"></i>
+                                        </a>
+                                        <ul class="list-unstyled">
+                                            <li><a href="index.html">Home 01</a></li>
+                                            <li><a href="index-2.html">Home 02</a></li>
+                                            <li><a href="index-3.html">Home 03</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li class="sub-mobile-menu">
+                                        <a href="javascript:void(0)">
+                                            Services <i class="fas fa-chevron-down float-end"></i>
+                                        </a>
+                                        <ul class="list-unstyled">
+                                            <li><a href="service.html">Service Page</a></li>
+                                            <li><a href="service-details.html">Service Details</a></li>
+                                        </ul>
+                                    </li>
+                                     <li class="sub-mobile-menu has-dropdown">
+                                        <a href="javascript:void(0)">
+                                            Pages <i class="fas fa-chevron-down float-end"></i>
+                                        </a>
+                                        <ul class="list-unstyled">
+                                            <li class="sub-child-menu has-dropdown">
+                                                <a href="javascript:void(0)">
+                                                    Portfolio <i class="fas fa-chevron-down float-end"></i>
+                                                </a>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="project.html">Portfolio page</a></li>
+                                                    <li><a href="project-details.html">Portfolio Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="sub-child-menu has-dropdown">
+                                                <a href="javascript:void(0)">
+                                                    Team <i class="fas fa-chevron-down float-end"></i>
+                                                </a>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="team.html">Team page</a></li>
+                                                    <li><a href="team-details.html">Team Details</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="pricing.html">Pricing Page</a></li>
+                                            <li><a href="faq.html">Faq Page</a></li>
+                                            <li><a href="404.html">404 Error</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="sub-mobile-menu">
+                                        <a href="javascript:void(0)">
+                                            Blog <i class="fas fa-chevron-down float-end"></i>
+                                        </a>
+                                        <ul class="list-unstyled">
+                                            <li><a href="news-grid.html">Blog Grid</a></li>
+                                            <li><a href="news.html">Blog Standard</a></li>
+                                            <li><a href="news-details.html">Blog Details</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="contact.html">Contact</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="off-contact-area">
+                            <div class="off-contact-info">
+                                <span class="info-title">Contact Info</span>
+                                <div class="contact-details">
+                                    <span class="sub-info">Phone</span>
+                                    <p>
+                                        <a href="tel:+18005550123">+1 (800) 555-0123</a>
+                                    </p>
+                                </div>
+                                <div class="contact-details">
+                                    <span class="sub-info">Email</span>
+                                    <p>
+                                        <a href="mailto:hello@getcontextiq.com">hello@getcontextiq.com</a>
+                                    </p>
+                                </div>
+                                <div class="contact-details">
+                                    <span class="sub-info">Location</span>
+                                    <p>
+                                        374 William S Canning Blvd USA
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="social-icon-list">
+                                <span class="follow-title">
+                                    Follow us:
+                                </span>
+                                <div class="social-icon d-flex align-items-center">
+                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+             <!-- Search Start -->
+            <div class="search-popup">
+                <div class="search-popup__overlay search-toggler"></div>
+                <div class="search-popup__content">
+                    <form role="search" method="get" class="search-popup__form" action="#">
+                        <input type="text" id="search" name="search" placeholder="Search Here...">
+                        <button type="submit" aria-label="search submit" class="search-btn">
+                            <span><i class="fa-regular fa-magnifying-glass"></i></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="smooth-wrapper">
+                <div id="smooth-content">
+
+                    <!-- Hero Section Start -->
+                    <section class="hero-section-2 fix  position-relative">
+                        <div class="hero-2">
+                            <div class="swiper hero-slider-2">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <div class="hero-slider-items">
+                                            <div class="item-img position-absolute">
+                                                <img src="{% static 'new_assets/img/home-2/hero-slider-1.jpg'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape1.png'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape2">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape2.png' %}" alt="img">
+                                            </div>
+                                            <div class="container">
+                                                <div class="hero-content">
+                                                        <span class="hero-sub">Dump. Ask. Solve.</span>
+                                                        <h1 class="hero-title tz-split-1 hero_title">
+                                                            Dump Everything. Ask Anything. <span class="star"><img src="{% static 'new_assets/img/home-2/star2.png'%}" alt="img"></span>
+                                                        </h1>
+                                                        <p>
+                                                            ContextIQ turns your scattered files, notes, links, and YouTube videos into one intelligent workspace — so you can ask questions in plain language and get real answers, instantly.
+                                                        </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="hero-slider-items">
+                                            <div class="item-img position-absolute">
+                                                <img src="{% static 'new_assets/img/home-2/hero-slider-2.jpg'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape1.png'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape2">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape2.png'%}" alt="img">
+                                            </div>
+                                            <div class="container">
+                                                <div class="hero-content">
+                                                        <span class="hero-sub">Dump. Ask. Solve.</span>
+                                                        <h1 class="hero-title tz-split-1 hero_title">
+                                                            Dump Everything. Ask Anything. <span class="star"><img src="{% static 'new_assets/img/home-2/star2.png'%}" alt="img"></span>
+                                                        </h1>
+                                                        <p>
+                                                            ContextIQ turns your scattered files, notes, links, and YouTube videos into one intelligent workspace — so you can ask questions in plain language and get real answers, instantly.
+                                                        </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="swiper-slide">
+                                        <div class="hero-slider-items">
+                                            <div class="item-img position-absolute">
+                                                <img src="{% static 'new_assets/img/home-2/hero-slider-3.jpg'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape1.png'%}" alt="img">
+                                            </div>
+                                            <div class="hero-shape2">
+                                                <img src="{% static 'new_assets/img/home-2/hero-shape2.png'%}" alt="img">
+                                            </div>
+                                            <div class="container">
+                                                <div class="hero-content">
+                                                        <span class="hero-sub">Dump. Ask. Solve.</span>
+                                                        <h1 class="hero-title tz-split-1 hero_title">
+                                                            Dump Everything. Ask Anything. <span class="star"><img src="{% static 'new_assets/img/home-2/star2.png'%}" alt="img"></span>
+                                                        </h1>
+                                                        <p>
+                                                            ContextIQ turns your scattered files, notes, links, and YouTube videos into one intelligent workspace — so you can ask questions in plain language and get real answers, instantly.
+                                                        </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="array-button">
+                                <button class="array-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                                <button class="array-next"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </section>	
+                 
+                    <!-- Feature Section Start -->
+                    <section class="feature-section-2 section-padding">
+                        <div class="light-shape d-none d-xl-block">
+                            <img src="{% static 'new_assets/img/home-2/light-shape1.png'%}" alt="img">
+                        </div>
+                        <div class="light-shape2 d-none d-xl-block">
+                            <img src="{% static 'new_assets/img/home-2/light-shape2.png'%}" alt="img">
+                        </div>
+                        <div class="container">
+                            <div class="section-title style-2 text-center">
+                                <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                    <span class="sub-title">Dump. Ask. Solve.</span>
+                                </div>
+                                <h2 class="tx-title sec_title  tz-itm-title tz-itm-anim">
+                                    Everything You Need To <br> Turn Data Into Answers.
+                                </h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-1.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                Universal Ingestion
+                                            </h3>
+                                            <p>
+                                                PDFs, docs, spreadsheets, images, YouTube videos, and web links — dump it all in, no formatting or cleanup needed.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-2.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                Context-Aware Answers
+                                            </h3>
+                                            <p>
+                                               ContextIQ understands relationships across everything you've dumped, not just keyword matches, so answers are actually relevant.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-3.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                Source-Cited Responses
+                                            </h3>
+                                            <p>
+                                                Every answer traces back to exactly where it came from, so you can verify it and trust it completely.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Differentiator Section Start -->
+                    <section class="feature-section-2 section-padding pt-0">
+                        <div class="container">
+                            <div class="section-title style-2 text-center">
+                                <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                    <span class="sub-title">Built Different</span>
+                                </div>
+                                <h2 class="tx-title sec_title  tz-itm-title tz-itm-anim">
+                                    More Than A Chatbot. <br> Built To Learn You.
+                                </h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-1.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                200B+ Parameters
+                                            </h3>
+                                            <p>
+                                                ContextIQ is trained on more than 200 billion parameters, giving it the depth to understand nuance, tone, and context — not just keywords.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-2.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                Weeks Into Minutes
+                                            </h3>
+                                            <p>
+                                                What takes most teams weeks to read, cross-reference, and analyze, ContextIQ does in minutes — without cutting corners on accuracy.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/feature-icon-3.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                Learns Your Voice
+                                            </h3>
+                                            <p>
+                                                This isn't just Claude or ChatGPT wrapped in a new interface. ContextIQ knows your voice from day one, and the longer you use it, the better it gets — the content that performs best feeds back into the system to make every future answer sharper.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Brand Section Start -->
+                    <div class="brand-section-two mb-4">
+                        <div class="container">
+                            <div class="text-center">
+                                <div class="text wa_title_spilt_1">
+                                    Built for people who are tired of digging through folders, tabs, and endless search results.
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- About Section Start -->
+                    <section class="about-section-2 fix section-padding hero-ptb image-distortion p-relative z-index-1" data-background="{% static 'new_assets/img/home-2/about-bg.jpg'%}">
+                        <div class="container">
+                            <div class="row section-title style-2 sec-style-2">
+                                <div class="col-xxl-4">
+                                    <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                        <span class="sub-title">ABOUT CONTEXTIQ</span>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-8">
+                                    <h2 class="text_invert-2">
+                                        Turning Scattered Files, Notes, Videos, And Links Into One Workspace You Can Actually Ask Questions To.
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="about-wrapper">
+                                <div class="row">
+                                    <div class="col-xl-5 col-lg-6">
+                                        <div class="about-image wow fadeInUp" data-wow-delay=".3s">
+                                            <img src="{% static 'new_assets/img/home-2/about-image.jpg'%}" alt="img">
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7 col-lg-6 wow fadeInUp" data-wow-delay=".5s">
+                                        <div class="about-content">
+                                            <div class="icon-items">
+                                                <div class="icon">
+                                                    <img src="{% static 'new_assets/img/home-2/about-icon-1.svg'%}" alt="img">
+                                                </div>
+                                                <h3>
+                                                    Dump, Ask, Solve
+                                                </h3>
+                                                <p>
+                                                    One workspace for everything you need to know
+                                                </p>
+                                            </div>
+                                            <div class="content">
+                                                <p>
+                                                    ContextIQ reads across your documents, spreadsheets, images, YouTube videos, and web links to understand what you mean — then gives you a real, source-cited answer instead of just a list of files.
+                                                </p>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Audience Section Start -->
+                    <section class="feature-section-2 section-padding">
+                        <div class="container">
+                            <div class="section-title style-2 text-center">
+                                <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                    <span class="sub-title">One Tool, Every Workflow</span>
+                                </div>
+                                <h2 class="tx-title sec_title  tz-itm-title tz-itm-anim">
+                                    Who ContextIQ Is <br> Built For.
+                                </h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/service-icon-1.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                For Business
+                                            </h3>
+                                            <ul class="list-items">
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Connects to your website and marketing material
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Learns your brand tone and voice
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Drafts posts, emails, and scripts that sound like you
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Gets sharper as your content performs
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/service-icon-2.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                For Students
+                                            </h3>
+                                            <ul class="list-items">
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Upload PDFs, ebooks, spreadsheets, and notes
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Connect YouTube lectures and course videos
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Analyzes everything at once, not one by one
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Get summaries, explanations, and MCQs instantly
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+                                    <div class="feature-box-items-2">
+                                        <div class="icon">
+                                            <img src="{% static 'new_assets/img/home-2/service-icon-3.svg'%}" alt="img">
+                                        </div>
+                                        <div class="content">
+                                            <h3 class="title">
+                                                For Content Creators
+                                            </h3>
+                                            <ul class="list-items">
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Turn any PDF, article, or link into a script
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Connect past videos to match your style
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Keeps your hooks, tone, and pacing consistent
+                                                </li>
+                                                <li>
+                                                    <i class="fa-solid fa-check"></i> Draft 20-minute scripts in minutes, not days
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Service Section Start -->
+                    
+                    <!-- Banner Section Start -->
+                    
+                    <!-- Marque Section Start -->
+                    <div class="marquee-section-2">
+                        <div class="marquee">
+                            <div class="marquee-group">
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png' %}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Solve
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Context
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Insights
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Answers
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Research
+                                </div>
+                            </div>
+                             <div class="marquee-group">
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Solve
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Context
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Insights
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Answers
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Research
+                                </div>
+                            </div>
+                             <div class="marquee-group">
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Solve
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Context
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Insights
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Answers
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Research
+                                </div>
+                            </div>
+                             <div class="marquee-group">
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Solve
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Context
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Insights
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Answers
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Dump
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Ask
+                                </div>
+                                <div class="text">
+                                    <img src="{% static 'new_assets/img/home-2/star.png'%}" alt="img">
+                                    Research
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Section Start -->
+                    <section class="project-section section-padding oit-panel-pin-area">
+                        <div class="container">
+                            <div class="section-title style-2 text-center">
+                                <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                    <span class="sub-title">Building Digital Excellence</span>
+                                </div>
+                                <h2 class="tx-title sec_title  tz-itm-title tz-itm-anim">
+                                    How It <br> WORKS.
+                                </h2>
+                            </div>
+                            <div class="project-wrapper">
+                                <div class="project-box-items oit-panel-pin">
+                                    <div class="content">
+                                        <span class="number">01.</span>
+                                        <h3 class="title">
+                                            <a href="project-details.html">Dump<br> Anything</a>
+                                        </h3>
+                                        <p>
+                                            Upload documents, paste notes, connect your drive, or drop in YouTube links and web pages — no formatting, no cleanup, no busywork.
+                                        </p>
+                                       
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="{% static 'new_assets/img/home-2/project-1.jpg' %}" alt="img">
+                                        <img src="{% static 'new_assets/img/home-2/project-1.jpg'%}" alt="img">
+                                    </div>
+                                </div>
+                                <div class="project-box-items oit-panel-pin">
+                                    <div class="content">
+                                        <span class="number">02.</span>
+                                        <h3 class="title">
+                                            <a href="project-details.html">Ask</a>
+                                        </h3>
+                                        <p>
+                                            No search operators, no keyword guessing. Type your question the way you'd ask a colleague, and ContextIQ understands what you mean.
+                                        </p>
+                                        
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="{% static 'new_assets/img/home-2/project-2.jpg'%}" alt="img">
+                                        <img src="{% static 'new_assets/img/home-2/project-2.jpg'%}" alt="img">
+                                    </div>
+                                </div>
+                                <div class="project-box-items oit-panel-pin">
+                                    <div class="content">
+                                        <span class="number">03.</span>
+                                        <h3 class="title">Solve</a>
+                                        </h3>
+                                        <p>
+                                            ContextIQ doesn't just point you to a file — it synthesizes an answer from everything you've dumped and helps you take the next step.
+                                        </p>
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="{% static 'new_assets/img/home-2/project-3.jpg'%}" alt="img">
+                                        <img src="{% static 'new_assets/img/home-2/project-3.jpg'%}" alt="img">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </section>
+
+                    <!-- Team Section Start -->
+                    
+                    
+                     <!-- Testimonial Section Start -->
+                    <section class="testimonial-section-2 fix section-padding">
+                        <div class="light-shape">
+                            <img src="{% static 'new_assets/img/home-2/testi-light.png'%}" alt="img">
+                        </div>
+                        <div class="light-shape2">
+                            <img src="{% static 'new_assets/img/home-2/testi-light2.png'%}" alt="img">
+                        </div>
+                        <div class="container">
+                            <div class="section-title style-2 text-center">
+                                <div class="tz-sub-tilte tz-sub-anim tx-subTitle">
+                                    <span class="sub-title">Reliable, Proven, Loved</span>
+                                </div>
+                                <h2 class="tx-title sec_title  tz-itm-title tz-itm-anim">
+                                   Trusted By Leading <br> Companies.
+                                </h2>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-5 col-lg-6 wow fadeInUp" data-wow-delay=".3s">
+                                    <div class="testimonial-image">
+                                        <img src="{% static 'new_assets/img/home-2/testimonial-image.jpg'%}" alt="img">
+                                        <a href="https://www.youtube.com/watch?v=Cn4G2lZ_g2I" class="video-btn ripple video-popup">
+                                            <i class="fa-solid fa-play"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xl-7 col-lg-6">
+                                    <div class="testimonial-wrapper-two">
+                                        <div class="testi-line"></div>
+                                        <div class="swiper testimonial-slider-2">
+                                            <div class="swiper-wrapper">
+                                                <div class="swiper-slide wow fadeInUp" data-wow-delay=".3s">
+                                                    <div class="testimonial-box-items-2">
+                                                        <div class="star">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="text">
+                                                        “Our experience with this platform has been nothing short of amazing. The tools are intuitive, reliable, and have significantly improved our team’s productivity. Collaboration is seamless, tasks are easier to manage, and reporting provides clear insights that help us make smarter decisions.”
+                                                        </p>
+                                                        <div class="client-info">
+                                                            <div class="thumb">
+                                                                <img src="{% static 'new_assets/img/home-1/client-1.png'%}" alt="img">
+                                                            </div>
+                                                            <div class="info-content">
+                                                                <h3 class="name">Shikhon Islam</h3> 
+                                                                <span>Brand Manager</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="swiper-slide wow fadeInUp" data-wow-delay=".5s">
+                                                    <div class="testimonial-box-items-2">
+                                                        <div class="star">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-solid fa-star"></i>
+                                                            <i class="fa-regular fa-star"></i>
+                                                        </div>
+                                                        <p class="text">
+                                                        “Our experience with this platform has been nothing short of amazing. The tools are intuitive, reliable, and have significantly improved our team’s productivity. Collaboration is seamless, tasks are easier to manage, and reporting provides clear insights that help us make smarter decisions.”
+                                                        </p>
+                                                        <div class="client-info">
+                                                            <div class="thumb">
+                                                                <img src="{% static 'new_assets/img/home-1/client-1.png'%}" alt="img">
+                                                            </div>
+                                                            <div class="info-content">
+                                                                <h3 class="name">Dianne Russell</h3> 
+                                                                <span>CEO</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+
+                    <!-- News Section Start -->
+                    
+                    <!-- Footer Section Start -->
+                    <footer class="footer-section fix hero-ptb image-distortion p-relative z-index-1" data-background="{% static 'new_assets/img/home-2/footer-bg.jpg'%}">
+                        <div class="container">
+                            <div class="footer-widget-wrapper">
+                                <div class="row justify-content-between">
+                                    <div class="col-xl-3 col-lg-5 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                                        <div class="footer-widget-items">
+                                            <div class="widget-head">
+                                                <a href="index.html" class="footer-logo">
+                                                    <img src="{% static 'new_assets/img/home-1/footer-logo.svg'%}" alt="img">
+                                                </a>
+                                            </div>
+                                            <div class="footer-content">
+                                                <p>
+                                                    Dump your files, notes, links, and videos — then ask ContextIQ anything.
+                                                </p>
+                                                <div class="social-icon d-flex align-items-center">
+                                                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                                    <a href="#"><i class="fab fa-vimeo-v"></i></a>
+                                                    <a href="#"><i class="fab fa-pinterest-p"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6 col-6 wow fadeInUp" data-wow-delay=".4s">
+                                        <div class="footer-widget-items">
+                                            <div class="widget-head">
+                                                <span class="widget-title">Resources</span>
+                                            </div>
+                                            <ul class="gt-list-area">
+                                                <li>
+                                                    <a href="contact.html">
+                                                        Contact us
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="team.html">
+                                                        Our teams
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="contact.html">
+                                                        Careers
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="contact.html">
+                                                    Feedback
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="404.html">
+                                                    Error 404
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 ps-lg-0 col-lg-4 col-md-6 col-sm-6 col-6 wow fadeInUp" data-wow-delay=".6s">
+                                        <div class="footer-widget-items">
+                                            <div class="widget-head">
+                                                <span class="widget-title">Services</span>
+                                            </div>
+                                            <ul class="gt-list-area">
+                                                <li>
+                                                    <a href="service-details.html">
+                                                        Collaboration
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="service-details.html">
+                                                    Integration
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="service-details.html">
+                                                        Reporting
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="service-details.html">
+                                                    Management
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="service-details.html">
+                                                    Support
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay=".8s">
+                                        <div class="footer-widget-items">
+                                            <div class="widget-head">
+                                                <span class="widget-title">Contact</span>
+                                            </div>
+                                            <ul class="contact-list">
+                                                <li>
+                                                    <img src="{% static 'new_assets/img/home-1/call.png'%}" alt="img">
+                                                    <a href="tel:+86661233562">+8 (666) 123-3562</a>
+                                                </li>
+                                                <li>
+                                                    <img src="{% static 'new_assets/img/home-1/email.png'%}" alt="img">
+                                                    <a href="mailto:hello@getcontextiq.com">hello@getcontextiq.com</a>
+                                                </li>
+                                                <li>
+                                                    General information or new 
+                                                     business inquiries.
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="footer-newsletter-wrapper-two">
+                                <h2 class="title split-title">
+                                    Join Our Community <br> For Updates
+                                </h2>
+                                <form action="#">
+                                    <input type="text" placeholder="Enter email*">
+                                    <button type="submit" class="theme-btn-main style-2">
+                                        <span class="theme-btn-arrow-left"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                        <span class="theme-btn">Subscribe</span>
+                                        <span class="theme-btn-arrow-right"> <i class="fa-solid fa-arrow-up-right"></i> </span>
+                                    </button>
+                                </form>
+                            </div> -->
+                        </div>
+                        <div class="footer-bottom style-2">
+                            <div class="container">
+                                <div class="footer-bottom-wrapper">
+                                    <p>
+                                        © 2026 <b>ContextIQ.</b> All rights reserved.
+                                    </p>
+                                    <ul class="footer-list">
+                                        <li>
+                                            <a href="contact.html">Privacy policy</a>
+                                        </li>
+                                        <li>।</li>
+                                        <li>
+                                            <a href="contact.html">Terms &amp; conditions</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </footer> 
+                </div>
+            </div>
+        </div>
+
+    
+        <!--<< All JS Plugins >>-->
+        <script src="{% static 'new_assets/js/jquery-3.7.1.min.js'%}"></script>
+        <!--<< Bootstrap Js >>-->
+        <script src="{% static 'new_assets/js/bootstrap.bundle.min.js'%}"></script>
+        <!--<< Gsap Min Js >>-->
+        <script src="{% static 'new_assets/js/gsap.min.js'%}"></script>
+        <!--<< ScrollTrigger Min Js >>-->
+        <script src="{% static 'new_assets/js/ScrollTrigger.min.js'%}"></script>
+        <!--<< ScrollSmoother Min Js >>-->
+        <script src="{% static 'new_assets/js/ScrollSmoother.min.js' %}"></script>
+        <!--<< ScrollToPlugin Min Js >>-->
+        <script src="{% static 'new_assets/js/ScrollToPlugin.min.js'%}"></script>
+        <!--<< SplitText Min Js >>-->
+        <script src="{% static 'new_assets/js/SplitText.min.js' %}"></script>
+        <!--<< TextPlugin Min Js >>-->
+        <script src="{% static 'new_assets/js/TextPlugin.js' %}"></script>
+        <!--<< Chroma Min Js >>-->
+        <script src="{% static 'new_assets/js/chroma.min.js' %}"></script>
+        <!--<< Three Js >>-->
+        <script src="{% static 'new_assets/js/three.js' %}"></script>
+        <!--<< Ripple Js >>-->
+        <script src="{% static 'new_assets/js/ripple-2.js' %}"></script>
+        <!--<< Webgl Min Js >>-->
+        <script src="{% static 'new_assets/js/webgl.js' %}"></script>
+        <!--<< nice-selec Js >>-->
+        <script src="{% static 'new_assets/js/jquery.nice-select.min.js' %}"></script>
+        <!--<< Waypoints Js >>-->
+        <script src="{% static 'new_assets/js/jquery.waypoints.js' %}"></script>
+        <!--<< Counterup Js >>-->
+        <script src="{% static 'new_assets/js/jquery.counterup.min.js' %}"></script>
+        <!--<< Swiper Slider Js >>-->
+        <script src="{% static 'new_assets/js/swiper-bundle.min.js' %}"></script>
+        <!--<< Magnific Popup Js >>-->
+        <script src="{% static 'new_assets/js/jquery.magnific-popup.min.js' %}"></script>
+        <!--<< Wow Animation Js >>-->
+        <script src="{% static 'new_assets/js/wow.min.js' %}"></script>
+        <!--<< Main.js >>-->
+        <script src="{% static 'new_assets/js/main.js' %}"></script>
+        <script type="module" src="{% static 'new_assets/js/distortion-img.js' %}"></script>
+    </body>
+</html>

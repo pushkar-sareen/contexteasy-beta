@@ -1,0 +1,221 @@
+// Animation
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+.marquee {
+  position: relative;
+  --duration: 100s;
+  --gap: 0px;
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 0;
+
+
+  .marquee-group {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 30px;
+    min-width: 100%;
+    animation: scroll var(--duration) linear infinite;
+
+    .icon-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1.13258px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(18.1212px);
+      border-radius: 9.78671px;
+      width: 123px;
+      height: 123px;
+      line-height: 123px;
+      text-align: center;
+      border-radius: 10px;
+    }
+  }
+
+}
+
+
+// .powerful-feature-section {
+//   .marquee {
+//     --duration: 30s;
+
+//      @include breakpoint (max-xl4){
+//       gap: 30px !important;
+//     }
+//   }
+
+//   .marquee-group {
+//     gap: 0 !important;
+
+//     @include breakpoint (max-xl4){
+//       gap: 30px !important;
+//     }
+//   }
+
+//   .marquee-2 {
+//     margin-top: 35px;
+
+//     .marquee-group {
+//       animation: scrollLTR var(--duration) linear infinite;
+//     }
+//   }
+  
+// }
+
+@keyframes scrollLTR {
+  0% {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.brand-section-one {
+    margin: 0 30px;
+
+    @include breakpoint (max-xl){
+      margin: 0 20px;
+    }
+
+    .text {
+        font-size: 20px;
+        font-weight: 600;
+        color: $header-color;
+        text-align: center;
+        margin-bottom: 60px;
+
+        b {
+            color: $theme-color;
+            font-weight: 600;
+        }
+    }
+
+    .brand-img {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid #fff;
+        backdrop-filter: blur(15px);
+        width: 285px;
+        height: 123px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 80px;
+    }
+
+    .marquee {
+        --duration: 40s;
+        gap: 30px;
+    }
+    
+}
+
+.brand-section-two {
+
+    .text {
+       font-size: 18px;
+        font-weight: 600;
+        color: #000000;
+        height: 42px;
+        line-height: 33px;
+        border-radius: 80px;
+        background: rgba(255, 255, 255, 0.15);
+        box-shadow: 0px 2px 2px rgba(21, 23, 25, 0.1);
+        border: 3px solid #fff;
+        backdrop-filter: blur(15px);
+        padding: 0 15px;
+        margin-bottom: 50px;
+        display: inline-block;
+
+        b {
+            color: $theme-color;
+            font-weight: 600;
+        }
+    }
+
+    .brand-img {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid #fff;
+        backdrop-filter: blur(15px);
+        width: 285px;
+        height: 123px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+    }
+
+    .marquee {
+        --duration: 40s;
+        gap: 30px;
+    }
+
+    &.style-3page {
+      .marquee {
+        position: relative;
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: "";
+          height: 100%;
+          width: 500px;
+          background: linear-gradient(90deg, #EDF1F5 -2.22%, rgba(237, 241, 245, 0) 97.03%);
+          z-index: 1;
+
+          @include breakpoint (max-lg){
+            display: none;
+          }
+        }
+        
+        &::after {
+          position: absolute;
+          top: 0;
+          right: 0;
+          content: "";
+          height: 100%;
+          width: 500px;
+          background: linear-gradient(88deg, rgba(237, 241, 245, 0) 0%, #EDF1F5 99.25%);
+          z-index: 1;
+
+          @include breakpoint (max-lg){
+            display: none;
+          }
+        }
+
+      }
+    } 
+}
+
+.marquee-section-2 {
+  background-color: $theme-color;
+ 
+
+  .marquee {
+    gap: 40px;
+    --duration: 50s;
+  }
+
+  .text {
+    @include flex;
+    gap: 40px;
+    font-size: 28px;
+    font-weight: 600;
+    color: $white;
+    text-transform: capitalize;
+     padding: 18px 0;
+
+     img {
+          animation: cir36 10s linear infinite;
+     }
+  }
+}

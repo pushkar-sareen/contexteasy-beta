@@ -1,0 +1,328 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <!-- SEO Meta Tags-->
+    <meta name="keywords" content="quicky, chat, messenger, conversation, social, communication" />
+    <meta name="description"
+        content="Quicky is a Bootstrap based modern and fully responsive Messaging template to help build Messaging or Chat application fast and easy." />
+    <meta name="subject" content="communication">
+    <meta name="copyright" content="frontendmatters">
+    <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
+    <title>Quicky - HTML Chat Template</title>
+    <!-- Favicon and Touch Icons-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{%static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png'%}">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="{% static 'assets/webfonts/inter/inter.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.min.css' %}">
+    <style>
+        #textInput {
+            border-color: #007bff !important;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.15) !important;
+        }
+
+        #textInput:focus {
+            border-color: #062f5b !important;
+            box-shadow: 0 0 0 0.2rem rgba(97, 93, 227, 0.15) !important;
+        }
+
+        .message .message-content {
+            max-width: 90% !important;
+            font-size: 1.2rem;
+        }
+
+        .main-layout .friends {
+            height: 12%;
+        }
+
+
+
+        .mini-upload {
+            width: 100%;
+            max-width: 360px;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.04);
+            font-family: inherit;
+        }
+
+        /* Header */
+
+        .mini-upload-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mini-upload-icon {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f0f2ff;
+            border-radius: 7px;
+
+            font-size: 14px;
+        }
+
+        .mini-upload-title {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .mini-upload-title strong {
+            font-size: 11px;
+            color: #303642;
+        }
+
+        .mini-upload-title span {
+            font-size: 9px;
+            color: #9aa0ab;
+        }
+
+        /* Choose button */
+
+        .choose-btn {
+            padding: 5px 8px;
+
+            border-radius: 6px;
+
+            background: #f2f4ff;
+            color: #6573f5;
+
+            font-size: 9px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .choose-btn:hover {
+            background: #e7eaff;
+        }
+
+        /* Files */
+
+        .mini-file-list {
+            margin-top: 7px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+
+            max-height: 80px;
+            overflow-y: auto;
+        }
+
+        .mini-file {
+            display: flex;
+            align-items: center;
+
+            padding: 5px 6px;
+
+            background: #f8f9fb;
+            border-radius: 5px;
+
+            font-size: 9px;
+            color: #555d6b;
+        }
+
+        .mini-file-name {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        /* Progress */
+
+        .progress-container {
+            display: none;
+            margin-top: 8px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 4px;
+
+            font-size: 9px;
+            color: #9299a5;
+        }
+
+        #progressPercent {
+            color: #6573f5;
+            font-size: 9px;
+        }
+
+        /* Progress bar */
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+
+            background: #edf0f5;
+            border-radius: 10px;
+
+            overflow: hidden;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 100%;
+
+            background: #6573f5;
+
+            border-radius: 10px;
+
+            transition: width 0.15s ease;
+        }
+
+        /* Upload */
+
+        .mini-upload-btn {
+            width: 100%;
+
+            margin-top: 8px;
+
+            padding: 7px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #6573f5;
+            color: #fff;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .mini-upload-btn:hover {
+            background: #5665e8;
+        }
+
+        .mini-upload-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+
+
+        /* test test test */
+
+        .contacts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            max-height: 300px;
+            overflow-y: auto;
+
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            flex-shrink: 0;
+        }
+
+        .contact-item span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-right: 10px;
+        }
+
+        .contact-item a {
+            flex-shrink: 0;
+        }
+
+
+
+
+        /* test 2 test 2  */
+
+        .bottom-text {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px 7px;
+    box-sizing: border-box;
+}
+
+.bottom-text input {
+    min-width: 0;
+    height: 45px;
+}
+
+.bottom-text .send-icon {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    padding: 0;
+}
+
+.bottom-text .hw-24 {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 768px) {
+    .chats-tab-open {
+      display: none;
+    }
+  }
+    </style>
+
+</head>
+
+<body class="chats-tab-open">
+    {% block content %}
+
+    {% endblock %}
+    <!-- Javascript Files -->
+    <script src="{% static 'assets/vendors/jquery/jquery-3.5.0.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/svg-inject/svg-inject.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/modal-stepes/modal-steps.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/emojione/emojionearea.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <script>
+        // Scroll to end of chat
+        document.querySelector('.chat-finished').scrollIntoView({
+            block: 'end',               // "start" | "center" | "end" | "nearest",
+            behavior: 'auto'          //"auto"  | "instant" | "smooth",
+        });
+    </script>
+</body>
+
+</html>

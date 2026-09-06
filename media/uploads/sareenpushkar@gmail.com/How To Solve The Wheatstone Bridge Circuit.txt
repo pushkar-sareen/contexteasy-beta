@@ -1,0 +1,285 @@
+let's begin with this problem
+number one
+in the circuit shown below
+the current flowing through the ammeter
+is zero amps
+calculate the value of our x
+so what we have is a wheat stone bridge
+circuit
+this circuit is very useful
+for measuring very low values of
+resistance
+so in this example we need to calculate
+our x
+now the current flowing through the
+ammeter which let's call it im
+is 0 amps
+now if there's no current flowing here
+that means that the voltage or rather
+the potential at these two points are
+the same
+so let's call this a
+b
+c
+and d
+so the electric potential at point c
+has to be equal to the electric
+potential at point b
+i mean point d rather
+so when that's the case what we have
+is a wheat stone bridge
+that is a balanced
+the resistors on the left balances the
+resistors on the right
+so whenever you have a balanced
+condition
+the resistors on the left are actually
+proportional to the resistors on the
+right
+so going from r1 to r3
+we simply need to multiply it by two
+30 times 2 is 60. so going from r2 to rx
+we need to multiply by 2 and that will
+give us the answer
+so our x
+is going to be equal to 140.
+now that's the answer but i'm going to
+show you what formulas you can use
+to confirm your answer
+now the first thing we need to realize
+is that because no current flows to the
+ammeter we can just get rid of the
+ammeter now we can redraw the circuit
+like this
+so this circuit is equivalent
+to
+the one i'm about to draw
+so this is
+r1 r3
+r2
+and rx
+now let's say that the current flowing
+through
+r1
+is let's call it ia
+now there's no current flowing in this
+branch
+so therefore ia also flows through r2
+and the current flowing through r3 let's
+call it ib
+so that's going to be the same current
+flowing through our x
+now
+because these two points
+are directly attached to each other the
+voltage is the same
+so as we said before vc is equal to vd
+the potential at those two points will
+be the same
+that means that vr1
+is equal to vr3
+because r1 is connected directly across
+r3 so the voltage across those two
+resistors will be the same
+likewise the vr2
+is equal to vrx because
+these resistors are parallel to each
+other they're connected directly across
+each other
+so what we're gonna do now is take a
+ratio
+of
+two voltages we're gonna
+write vr1 over vr2
+now we know that vr1 is equal to vr3
+and vr2 is equal to vrx
+now the reason why i chose to
+divide vr1 by vr2 is because they share
+the same current
+the voltage across r1 is equal to the
+current that flows through it times r1
+itself according to ohm's law
+so vr1 can be replaced with ia times r1
+vr2
+is ia times r2
+now vr3 that's going to be ib
+times r3 is the current flowing through
+it times the resistance
+vrx is going to be ib
+times rx
+so we could cancel ia and we can cancel
+ib
+so we're left with this expression r1
+over r2
+is equal to r3 over rx
+if we raise both sides
+or each fraction to the negative one
+power we can flip the two fractions
+so we get r2 over r1 is equal to rx over
+r3
+multiplying both sides by r3 we can
+isolate our x
+giving us this formula
+so rx is going to be
+r2 over r1 times r3 in this example
+r2 is 70
+r1 is 30
+and our 3 is 60.
+so we could divide first 60 divided by
+30 is 2
+and then 2 times 70
+is 140.
+so that's how you could show your work
+to get the answer so that's how you can
+calculate the missing resistor in a
+balanced condition
+now here's another similar problem for
+the sake of practice go ahead and try it
+just like the last problem the current
+flowing through the ammeter is going to
+be zero amps
+so feel free to pause the video
+and calculate our x
+so looking at r2 and r1 notice that if
+we multiply 16 by 3
+we can get 48 or
+if we divide 48 by 3
+we'll get 16. so likewise if we divide
+60 by 3
+we will get our x which is 20.
+so i did it a little different than in
+the last one in the last example i
+multiplied this resistor by some number
+to get the other one
+so if you were to divide 48 i mean 60 by
+48
+that will be 1.25 so that's your
+multiplier
+now if you take 16 and multiply by 1.25
+that should give you 20 as well
+so you have different ways in which you
+can find the answer
+if
+the wheat stone bridge is balanced
+so the answer is 20.
+now let's move on to our second type of
+problem
+calculate the voltage reading of the
+voltmeter in the circuit shown below
+feel free to pause the video and try
+this problem
+so let's call this point a
+point b
+point c
+and point d
+in order to calculate the voltage
+reading of the voltmeter
+that's going to be the difference
+between
+the potential at c and at d so if we
+could find those values we can get the
+answer
+now it's important to understand that
+a voltmeter
+has
+a very high resistance the resistance is
+so high that the current flowing through
+the voltmeter is negligible we could
+assume that it's almost zero
+so because of that
+the equivalent circuit that we have
+looks something like this
+so in this circuit there is no
+connection between points c and d
+they're virtually disconnected
+now we know the potential at b is zero
+and the potential
+at a is 60 because
+that's the voltage of the battery
+how can we determine
+the potential at c and that d
+this is r1 and this is r2
+if we focus on this branch of the
+circuit notice that
+this forms a voltage divider
+to calculate the voltage across r2 we
+could use this formula
+so v2
+is or rather
+v across r2 that's going to be r2
+over r1 plus r2
+times
+the voltage of the battery or this
+source voltage
+by the way one thing that we should have
+done at the beginning is determine if
+this particular wheatstone bridge
+circuit is balanced or unbalanced
+what would you say would you say it's
+balanced or unbalanced
+comparing r1 and r3 r3 is twice the
+value of r1
+now if we multiply r2 by 4 we're not
+going to get 7 we're going to get 12.
+so the ratio between r1 and r2 is not
+the same as the ratio between three and
+four
+six divided by four is not the same as
+seven divided by eight you could also
+divide it the other way as well
+but the ratio is not the same
+so
+this particular circuit is unbalanced
+which means that
+the potential at c
+will be different than the potential at
+d now if the circuit was balanced
+the voltage
+that would be read by the voltmeter will
+be zero vc
+would equal v d so we don't have a
+balanced condition
+so that means
+v
+is some number
+other than zero
+so let's go ahead and use this formula
+r two is six
+r r1 is 4
+and then plus r2
+times the source excuse me the source
+voltage
+so we have 6 over 10 times 60.
+60 divided by 10 is 6
+and then 6 times 6 is 36
+so the voltage across r2 is 36
+which means the potential at c is 36
+volts
+now let's do the same thing to determine
+the potential
+at point d
+so this is r3 and this is r4
+so the formula that we're going to use
+is going to be very similar
+the voltage across r4 is going to be
+r4 divided by r4 plus r3
+times
+the source voltage
+four in this example is seven
+and then r3 is eight times sixteen
+so we have seven over fifteen
+times sixty
+sixty divided by fifteen is four four
+times seven is twenty 28
+so the potential at d
+is 28 volts
+so now that we have v c and v d we can
+get the answer
+so v c is 36 v d is 28
+so that gives us a potential difference
+of 8 volts
+so that is what is going to be read by
+the voltmeter the voltmeter is going to
+read
+a voltage of 8 volts across point c and
+d
