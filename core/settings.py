@@ -10,9 +10,15 @@ SECRET_KEY = 'replace-this-with-a-new-secret-key'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com',"localhost",
-    "127.0.0.1",]
+# ALLOWED_HOSTS = ['contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com',"localhost",
+#     "127.0.0.1",]
 
+ALLOWED_HOSTS = [
+    "contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com",
+    "localhost",
+    "127.0.0.1",
+    "172.31.18.104",
+]
 
 # Application definition
 
