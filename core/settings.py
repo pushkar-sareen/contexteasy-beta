@@ -18,7 +18,7 @@ ALLOWED_HOSTS = [
     "contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com",
     "localhost",
     "127.0.0.1",
-    "172.31.18.104",
+    "172.31.22.139",
 ]
 
 # Application definition
