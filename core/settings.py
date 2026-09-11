@@ -19,7 +19,9 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "172.31.22.139",
-    "contexteasy.ai"
+    "172.31.7.145",
+    "www.contexteasy.ai",
+    "contexteasy.ai",
 ]
 
 # Application definition
