@@ -235,26 +235,56 @@ def chat_context(user, user_input):
     {
         get_context(user, user_input)}
     """
-    resp = requests.post(
-                        NVIDIA_API_URL,
-                        headers={
-                            "Authorization": f"Bearer {NVIDIA_API_KEY}",
-                            "Content-Type": "application/json",
-                        },
-                        json={
-                            "model": NVIDIA_MODEL,
-                            "messages": [
-                                {"role": "system", "content": SYSTEM_PROMPT},
-                                {"role": "user", "content": user_input},
-                            ],
-                            "max_tokens": 4096,
-                        },
-                        timeout=120,
-                    )
-    data = resp.json()
-    answer = data['choices'][0]['message']['content'] 
+    # resp = requests.post(
+    #                     NVIDIA_API_URL,
+    #                     headers={
+    #                         "Authorization": f"Bearer {NVIDIA_API_KEY}",
+    #                         "Content-Type": "application/json",
+    #                     },
+    #                     json={
+    #                         "model": NVIDIA_MODEL,
+    #                         "messages": [
+    #                             {"role": "system", "content": SYSTEM_PROMPT},
+    #                             {"role": "user", "content": user_input},
+    #                         ],
+    #                         "max_tokens": 4096,
+    #                     },
+    #                     timeout=120,
+    #                 )
+    # data = resp.json()
+    # answer = data['choices'][0]['message']['content'] 
+    response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": user_input}
+    ]
+    )
+    answer = response.choices[0].message.content
     return answer
 
+
+
+
+# SYSTEM_PROMPT = f"""
+# You are a helpful assistant.
+# Answer ONLY using the provided context.
+# If multiple files are present, use them equally.
+
+# Context:
+# {context}
+# """
+
+# response = client.chat.completions.create(
+#     model="gpt-5",
+#     messages=[
+#         {"role": "system", "content": SYSTEM_PROMPT},
+#         {"role": "user", "content": query}
+#     ]
+# )
+
+# print("\nAnswer:\n")
+# print(response.choices[0].message.content)
 
 
 def delete_chat(request):
@@ -300,6 +330,8 @@ def homepage(request):
 
 def transaction(request):
     return render(request, "pricing.html")
+
+
 
 
 

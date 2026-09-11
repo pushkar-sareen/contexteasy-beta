@@ -19,11 +19,12 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "172.31.22.139",
+    "contexteasy.ai"
 ]
 
 # Application definition
 
-SITE_ID = 3
+SITE_ID = 5
 
 
 INSTALLED_APPS = [

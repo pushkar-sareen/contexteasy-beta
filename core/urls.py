@@ -17,7 +17,6 @@ urlpatterns = [
     path("delete-file/<int:id>/", delete_files, name="delete_file"),
     path("delete-link/<int:id>/", delete_link, name="delete_link"),
     path("delete-url/<int:id>/", delete_url, name="delete_url"),
-
 ]
 if settings.DEBUG:
     urlpatterns += static(
