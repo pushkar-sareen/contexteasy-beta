@@ -14,15 +14,7 @@ DEBUG = True
 # ALLOWED_HOSTS = ['contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com',"localhost",
 #     "127.0.0.1",]
 
-ALLOWED_HOSTS = [
-    "contexteasy-env.eba-vekxsfry.us-west-2.elasticbeanstalk.com",
-    "localhost",
-    "127.0.0.1",
-    "172.31.22.139",
-    "172.31.7.145",
-    "www.contexteasy.ai",
-    "contexteasy.ai",
-]
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
