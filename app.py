@@ -1,5 +1,6 @@
 # from openai import OpenAI
 import requests
+import trafilatura
 
 # client = OpenAI()
 
@@ -55,4 +56,21 @@ def get_youtube_title(video_url):
 
 
 
-print(get_youtube_title(youtube_url))
+# print(get_youtube_title(youtube_url))
+
+
+def read_webpage(url):
+    downloaded = trafilatura.fetch_url(url)
+    if downloaded is None:
+        raise Exception("Unable to fetch webpage.")
+    text = trafilatura.extract(
+        downloaded,
+        include_links=False,
+        include_tables=True,
+        include_comments=False,
+    )
+    return text
+
+
+x = read_webpage("https://www.theblogstarter.com/")
+print(x)
