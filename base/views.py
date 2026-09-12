@@ -33,7 +33,7 @@ YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY",)
 NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
-NVIDIA_MODEL = "nvidia/nemotron-3-nano-30b-a3b"
+NVIDIA_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
 
 
@@ -250,32 +250,34 @@ def chat_context(user, user_input):
     {
         get_context(user, user_input)}
     """
-    # resp = requests.post(
-    #                     NVIDIA_API_URL,
-    #                     headers={
-    #                         "Authorization": f"Bearer {NVIDIA_API_KEY}",
-    #                         "Content-Type": "application/json",
-    #                     },
-    #                     json={
-    #                         "model": NVIDIA_MODEL,
-    #                         "messages": [
-    #                             {"role": "system", "content": SYSTEM_PROMPT},
-    #                             {"role": "user", "content": user_input},
-    #                         ],
-    #                         "max_tokens": 4096,
-    #                     },
-    #                     timeout=120,
-    #                 )
-    # data = resp.json()
-    # answer = data['choices'][0]['message']['content'] 
-    response = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[
-        {"role": "system", "content": SYSTEM_PROMPT},
-        {"role": "user", "content": user_input}
-    ]
-    )
-    answer = response.choices[0].message.content
+    resp = requests.post(
+                        NVIDIA_API_URL,
+                        headers={
+                            "Authorization": f"Bearer {NVIDIA_API_KEY}",
+                            "Content-Type": "application/json",
+                        },
+                        json={
+                            "model": NVIDIA_MODEL,
+                            "messages": [
+                                {"role": "system", "content": SYSTEM_PROMPT},
+                                {"role": "user", "content": user_input},
+                            ],
+                            "max_tokens": 4096,
+                        },
+                        timeout=120,
+                    )
+    data = resp.json()
+    answer = data['choices'][0]['message']['content'] 
+
+
+    # response = client.chat.completions.create(
+    # model="gpt-3.5-turbo",
+    # messages=[
+    #     {"role": "system", "content": SYSTEM_PROMPT},
+    #     {"role": "user", "content": user_input}
+    # ]
+    # )
+    # answer = response.choices[0].message.content
     return answer
 
 

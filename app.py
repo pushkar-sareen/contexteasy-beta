@@ -59,18 +59,49 @@ def get_youtube_title(video_url):
 # print(get_youtube_title(youtube_url))
 
 
-def read_webpage(url):
-    downloaded = trafilatura.fetch_url(url)
-    if downloaded is None:
-        raise Exception("Unable to fetch webpage.")
-    text = trafilatura.extract(
-        downloaded,
-        include_links=False,
-        include_tables=True,
-        include_comments=False,
-    )
-    return text
+# def read_webpage(url):
+#     downloaded = trafilatura.fetch_url(url)
+#     if downloaded is None:
+#         raise Exception("Unable to fetch webpage.")
+#     text = trafilatura.extract(
+#         downloaded,
+#         include_links=False,
+#         include_tables=True,
+#         include_comments=False,
+#     )
+#     return text
 
 
-x = read_webpage("https://www.theblogstarter.com/")
-print(x)
+# x = read_webpage("https://www.theblogstarter.com/")
+# print(x)
+
+NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
+
+NVIDIA_API_KEY= "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"
+
+NVIDIA_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
+
+
+SYSTEM_PROMPT ="you are a chatbot"
+user_input ="hi how much is distance from earth to mooon "
+
+resp = requests.post(
+                    NVIDIA_API_URL,
+                    headers={
+                        "Authorization": f"Bearer {NVIDIA_API_KEY}",
+                        "Content-Type": "application/json",
+                    },
+                    json={
+                        "model": NVIDIA_MODEL,
+                        "messages": [
+                            {"role": "system", "content": SYSTEM_PROMPT},
+                            {"role": "user", "content": user_input},
+                        ],
+                        "max_tokens": 4096,
+                    },
+                    timeout=120,
+                )
+data = resp.json()
+answer = data['choices'][0]['message']['content']
+
+print(answer)
