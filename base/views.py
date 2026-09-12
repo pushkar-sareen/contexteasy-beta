@@ -14,7 +14,7 @@ from langchain_core.documents import Document
 from pypdf import PdfReader
 import pandas as pd
 import requests
-from yt_dlp import YoutubeDL
+# from yt_dlp import YoutubeDL
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import trafilatura
@@ -116,16 +116,31 @@ def load_documents(user):
 #     return documents
 
 
-def get_title(url):
-    ydl_opts = {
-        "quiet": True,
-        "no_warnings": True,
-        "skip_download": True,
-        "noplaylist": True,
-    }
-    with YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=False)
-        return info.get("title", "Unknown title")
+# def get_title(url):
+#     ydl_opts = {
+#         "quiet": True,
+#         "no_warnings": True,
+#         "skip_download": True,
+#         "noplaylist": True,
+#     }
+#     with YoutubeDL(ydl_opts) as ydl:
+#         info = ydl.extract_info(url, download=False)
+#         return info.get("title", "Unknown title")
+
+def get_title(video_url):
+    endpoint = "https://www.youtube.com/oembed"
+    
+    response = requests.get(
+        endpoint,
+        params={
+            "url": video_url,
+            "format": "json"
+        },
+        timeout=10
+    )
+    response.raise_for_status()
+
+    return response.json()["title"]
 
 
 
