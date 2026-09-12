@@ -338,6 +338,9 @@ def transaction(request):
 def index(request):
     user_data = None
     youtube_url= None
+    
+    from django.urls import reverse
+    print(reverse("google_callback"))
 
     if request.user.is_authenticated:
         user_data = User.objects.get(id=request.user.id)
