@@ -341,7 +341,7 @@ def delete_url(request, id):
 
 
 def homepage(request):
-    return render(request, "index-2.html")
+    return render(request, "message.html")
 
 
 
