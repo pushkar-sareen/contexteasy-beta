@@ -129,7 +129,6 @@ def load_documents(user):
 
 def get_title(video_url):
     endpoint = "https://www.youtube.com/oembed"
-    
     response = requests.get(
         endpoint,
         params={
@@ -173,7 +172,6 @@ def read_webpage(url):
         include_tables=True,
         include_comments=False,
     )
-
     return text
 
 
