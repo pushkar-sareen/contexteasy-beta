@@ -203,6 +203,7 @@ USE_TZ = True
 
 
 
+# AWS S3
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 
@@ -217,13 +218,16 @@ AWS_DEFAULT_ACL = None
 AWS_QUERYSTRING_AUTH = False
 
 
+# Tell Django about project/static/
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+
 STORAGES = {
-    # Uploaded media files
     "default": {
         "BACKEND": "core.media_storages.MediaStorage",
     },
-
-    # CSS / JS / images from static directories
     "staticfiles": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
