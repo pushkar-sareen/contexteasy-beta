@@ -174,17 +174,56 @@ USE_TZ = True
 # STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # AWS S3 Static Files Configuration
+# AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+# AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+# AWS_STORAGE_BUCKET_NAME = "contexteasybucket"
+# AWS_S3_REGION_NAME = "us-west-2"
+
+# AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.us-west-2.amazonaws.com"
+
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "storages.backends.s3.S3Storage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3.S3Storage",
+#         "OPTIONS": {
+#             "location": "static",
+#         },
+#     },
+# }
+
+# STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+
+# DEFAULT_FILE_STORAGE ='core.media_storages.MediaStorage'
+
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
-AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
-AWS_S3_REGION_NAME = os.environ["AWS_S3_REGION_NAME"]
 
-AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+AWS_STORAGE_BUCKET_NAME = "contexteasybucket"
+AWS_S3_REGION_NAME = "us-west-2"
+
+AWS_S3_CUSTOM_DOMAIN = (
+    f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+)
+
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+
 
 STORAGES = {
+    # Uploaded media files
     "default": {
-        "BACKEND": "storages.backends.s3.S3Storage",
+        "BACKEND": "core.media_storages.MediaStorage",
     },
+
+    # CSS / JS / images from static directories
     "staticfiles": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
@@ -193,14 +232,10 @@ STORAGES = {
     },
 }
 
+
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 
-DEFAULT_FILE_STORAGE ='core.media_storages.MediaStorage'
-
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 
 # Authentication backends
 
