@@ -20,7 +20,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # Application definition
 
-SITE_ID = 6
+SITE_ID = 4
 
 
 INSTALLED_APPS = [

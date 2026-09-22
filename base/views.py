@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from openai import OpenAI
 from dotenv import load_dotenv
-from .models import Chat, UploadedFile, DataFiles, DatabaseChat,YoutbeLink,DatabaseLink,UploadedBackup, URLLink
+from .models import Chat, UploadedFile, DatabaseChat,YoutbeLink,DatabaseLink,UploadedBackup, URLLink
 from django.conf import settings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
@@ -14,7 +14,6 @@ from langchain_core.documents import Document
 from pypdf import PdfReader
 import pandas as pd
 import requests
-# from yt_dlp import YoutubeDL
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import trafilatura
@@ -25,12 +24,9 @@ import tldextract
 
 # Create your views here.
 
-
 load_dotenv()
 client = OpenAI()
 YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
-
-
 NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY",)
 NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
@@ -78,8 +74,10 @@ def load_documents(user):
                 },
             )
         )
+        print(documents)
 
     return documents
+
 
 
 
@@ -116,16 +114,7 @@ def load_documents(user):
 #     return documents
 
 
-# def get_title(url):
-#     ydl_opts = {
-#         "quiet": True,
-#         "no_warnings": True,
-#         "skip_download": True,
-#         "noplaylist": True,
-#     }
-#     with YoutubeDL(ydl_opts) as ydl:
-#         info = ydl.extract_info(url, download=False)
-#         return info.get("title", "Unknown title")
+
 
 def get_title(video_url):
     endpoint = "https://www.youtube.com/oembed"
@@ -267,7 +256,7 @@ def chat_context(user, user_input):
     data = resp.json()
     answer = data['choices'][0]['message']['content'] 
 
-
+  
     # response = client.chat.completions.create(
     # model="gpt-3.5-turbo",
     # messages=[
@@ -366,6 +355,7 @@ def index(request):
         if request.method == "POST":
             user_input = request.POST.get("data")
             answer = chat_context(user=user_data, user_input=user_input)
+            
             
             Chat.objects.create(
                 user = request.user if request.user.is_authenticated else None,
