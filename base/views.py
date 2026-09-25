@@ -338,13 +338,16 @@ def transaction(request):
 
 
 
+def get_file(request):
+    file = UploadedFile.objects.filter(user_id=4)
+    file.delete()
+    return True
+
+
 
 def index(request):
     user_data = None
     youtube_url= None
-    
-    from django.urls import reverse
-    print(reverse("google_callback"))
 
     if request.user.is_authenticated:
         user_data = User.objects.get(id=request.user.id)
