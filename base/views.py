@@ -8,6 +8,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 import os
+from django.core.files.base import ContentFile
+from django.utils.text import slugify
 from pathlib  import Path
 from django.conf import settings
 from langchain_core.documents import Document
@@ -40,79 +42,49 @@ def health(request):
 def load_documents(user):
     documents = []
 
-    directory = Path(settings.MEDIA_ROOT)/"uploads"/user.email
+    uploaded_files = UploadedFile.objects.filter(user=user)
 
-    if not directory.exists():
-        return documents
+    for uploaded in uploaded_files:
+        file = uploaded.file
 
-    for file_path in directory.rglob("*"):
-        if file_path.suffix.lower() not in {".txt", ".pdf", ".md", ".csv"}:
+        extension = file.name.lower().rsplit(".", 1)[-1]
+
+        if extension not in {"txt", "pdf", "md", "csv"}:
             continue
 
-        if file_path.suffix.lower() == ".pdf":
-            reader = PdfReader(file_path)
-            content = "\n".join(
-                (page.extract_text() or "")
-                for page in reader.pages
-            )
+        if extension == "pdf":
+            with file.open("rb") as f:
+                reader = PdfReader(f)
 
-        elif file_path.suffix.lower() == ".csv":
-            df = pd.read_csv(file_path)
+                content = "\n".join(
+                    page.extract_text() or ""
+                    for page in reader.pages
+                )
+
+        elif extension == "csv":
+            with file.open("rb") as f:
+                data = f.read()
+
+            df = pd.read_csv(io.BytesIO(data))
             content = df.to_csv(index=False)
 
         else:
-            content = file_path.read_text(
-                encoding="utf-8",
-                errors="ignore",
-            )
+            with file.open("rb") as f:
+                content = f.read().decode(
+                    "utf-8",
+                    errors="ignore"
+                )
 
         documents.append(
             Document(
                 page_content=content,
                 metadata={
-                    "path": str(file_path.relative_to(directory))
+                    "path": file.name,
                 },
             )
         )
-        print(documents)
 
     return documents
-
-
-
-
-
-# def load_documents(user):
-#     documents = []
-#     directory = Path(settings.MEDIA_ROOT) / f"uploads/{user.email}"
-
-#     # if not directory.exists():
-#     #     return documents
-    
-#     for file_path in directory.rglob("*"):
-#         if file_path.suffix.lower() in {'.txt', '.pdf', '.md', '.csv'}:
-
-#             if file_path.suffix.lower() == ".pdf":
-#                 reader = PdfReader(file_path)
-#                 content = "\n".join(
-#                     (page.extract_text() or "") for page in reader.pages
-#                 )
-
-#             elif file_path.suffix.lower() == ".csv":
-#                 df = pd.read_csv(file_path)
-#                 content = df.to_csv(index=False)
-
-#             else:
-#                 content = file_path.read_text(encoding="utf-8", errors="ignore")
-
-#             documents.append(
-#                 Document(
-#                     page_content=content,
-#                     metadata={"path": str(file_path.relative_to(directory))}
-#                 )
-#             )
-#     return documents
-
 
 
 
@@ -141,13 +113,31 @@ def youtube_data(user, youtube_url):
     transcript= [i['text'] for i in raw_data['transcript']]
     return transcript
 
-def generate_script(user,youtube_url):
-    data= youtube_data(user, youtube_url)
+# def generate_script(user,youtube_url):
+#     data= youtube_data(user, youtube_url)
+#     title = get_title(youtube_url)
+#     directory = Path(settings.MEDIA_ROOT) / f"uploads/{user.email}"
+#     with open(f"{directory}/{title}.txt", "w", encoding="utf-8") as f:
+#         for line in data:
+#             f.write(line + "\n")
+
+def generate_script(user, youtube_url):
+    data = youtube_data(user, youtube_url)
     title = get_title(youtube_url)
-    directory = Path(settings.MEDIA_ROOT) / f"uploads/{user.email}"
-    with open(f"{directory}/{title}.txt", "w", encoding="utf-8") as f:
-        for line in data:
-            f.write(line + "\n")
+
+    content = "\n".join(data)
+
+    filename = f"{slugify(title) or 'youtube-transcript'}.txt"
+
+    uploaded = UploadedFile(user=user)
+
+    uploaded.file.save(
+        filename,
+        ContentFile(content.encode("utf-8")),
+        save=True,
+    )
+
+    return uploaded
 
 
 
@@ -167,7 +157,6 @@ def read_webpage(url):
 
 def get_indexing(user):
     docs = load_documents(user=user)
-
     collection_name = f"{user}_documents_collection"
 
     text_splitter = RecursiveCharacterTextSplitter(
@@ -187,7 +176,6 @@ def get_indexing(user):
         collection_name= collection_name,
         force_recreate=True
     )
-    # collection_name= f"documents_collection"
 
     return vector_store, collection_name
 
@@ -256,39 +244,12 @@ def chat_context(user, user_input):
     data = resp.json()
     answer = data['choices'][0]['message']['content'] 
 
-  
-    # response = client.chat.completions.create(
-    # model="gpt-3.5-turbo",
-    # messages=[
-    #     {"role": "system", "content": SYSTEM_PROMPT},
-    #     {"role": "user", "content": user_input}
-    # ]
-    # )
-    # answer = response.choices[0].message.content
     return answer
 
 
 
 
-# SYSTEM_PROMPT = f"""
-# You are a helpful assistant.
-# Answer ONLY using the provided context.
-# If multiple files are present, use them equally.
 
-# Context:
-# {context}
-# """
-
-# response = client.chat.completions.create(
-#     model="gpt-5",
-#     messages=[
-#         {"role": "system", "content": SYSTEM_PROMPT},
-#         {"role": "user", "content": query}
-#     ]
-# )
-
-# print("\nAnswer:\n")
-# print(response.choices[0].message.content)
 
 
 def delete_chat(request):
@@ -300,11 +261,33 @@ def delete_chat(request):
 
 
 
+
 def delete_files(request, id):
-    uploaded = get_object_or_404(UploadedFile, id=id)
-    if uploaded.file and os.path.isfile(uploaded.file.path):
-        os.remove(uploaded.file.path)
+    uploaded = get_object_or_404(
+        UploadedFile,
+        id=id,
+        user=request.user,
+    )
+
+    uploaded.file.delete(save=False)
     uploaded.delete()
+
+    return redirect("chat")
+
+
+def delete_all_files(request):
+    files = UploadedFile.objects.filter(
+        user=request.user
+    )
+
+    for uploaded in files:
+        if uploaded.file:
+            # Delete actual file from S3
+            uploaded.file.delete(save=False)
+
+        # Delete database record
+        uploaded.delete()
+
     return redirect("chat")
 
 
@@ -319,14 +302,6 @@ def delete_url(request, id):
     return redirect("chat")
 
 
-
-
-
-
-
-
-
-
 def homepage(request):
     return render(request, "message.html")
 
@@ -338,16 +313,11 @@ def transaction(request):
 
 
 
-def get_file(request):
-    file = UploadedFile.objects.filter(user_id=4)
-    file.delete()
-    return True
-
-
-
 def index(request):
     user_data = None
     youtube_url= None
+
+
 
     if request.user.is_authenticated:
         user_data = User.objects.get(id=request.user.id)
@@ -374,19 +344,29 @@ def index(request):
             })
     except:
         pass
-    
+
+
     if request.method == "POST" and request.FILES.get("documents"):
+        uploaded_file = request.FILES["documents"]
+
         try:
-            UploadedFile.objects.create(
+            uploaded = UploadedFile.objects.create(
                 user=user_data,
-                file=request.FILES["documents"]
+                file=uploaded_file,
             )
-            UploadedBackup.objects.create(
-                file=request.FILES["documents"]
-            )
+
+            print("Uploaded:", uploaded.file.name)
+            print("URL:", uploaded.file.url)
+
+            documents = load_documents(user=user_data)
+
+            print("Documents:", documents)
+
             return redirect("chat")
-        except:
-            pass
+
+        except Exception as e:
+            print("UPLOAD ERROR:", e)
+            raise
 
     if request.method == "POST" and request.POST.get("youtube"):
         try:
@@ -402,32 +382,45 @@ def index(request):
             
     if request.method == "POST" and request.POST.get("url"):
         url = request.POST.get("url")
-        url_name = tldextract.extract(url).domain
+
         try:
             user = request.user
+
+            extracted = tldextract.extract(url)
+            url_name = extracted.domain or "webpage"
+
             webpage_content = read_webpage(url)
-            file_name = directory / f"{url_name}.txt"
+
             URLLink.objects.create(
                 user=user,
                 name=url
             )
 
-            with open(file_name, "w", encoding="utf-8") as f:
-                f.write(webpage_content)
+            filename = f"{slugify(url_name) or 'webpage'}.txt"
 
-            UploadedFile.objects.create(
-                file=f"uploads/{user.username}/{url_name}.txt"
+            uploaded = UploadedFile(
+                user=user
             )
-            UploadedBackup.objects.create(
-                file=f"uploads/{user.username}/{url_name}.txt"
+
+            uploaded.file.save(
+                filename,
+                ContentFile(
+                    webpage_content.encode("utf-8")
+                ),
+                save=True,
             )
+
+            return redirect("chat")
+
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-        return redirect("chat")
+            print("URL ERROR:", e)
+
+            return JsonResponse(
+                {"error": str(e)},
+                status=400
+            )
 
     file_names = UploadedFile.objects.filter(user_id= request.user.id)
-    youtube_link = YoutbeLink.objects.filter(user_id= request.user.id)
-    url_link = URLLink.objects.filter(user_id= request.user.id)
     chat_data = Chat.objects.filter(user_id= request.user.id) 
     return render(
         request,
@@ -435,8 +428,6 @@ def index(request):
         {
             "chat_data": chat_data,
             "file_names": file_names,
-            "youtube_link":youtube_link,
-            "url_link":url_link,
         }
     )
 

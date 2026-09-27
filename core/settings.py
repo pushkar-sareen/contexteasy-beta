@@ -224,10 +224,20 @@ STATICFILES_DIRS = [
 ]
 
 
+
 STORAGES = {
     "default": {
         "BACKEND": "core.media_storages.MediaStorage",
     },
+
+    "local": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {
+            "location": BASE_DIR / "media",
+            "base_url": "/media/",
+        },
+    },
+
     "staticfiles": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
@@ -235,6 +245,19 @@ STORAGES = {
         },
     },
 }
+
+
+# STORAGES = {
+#     "default": {
+#         "BACKEND": "core.media_storages.MediaStorage",
+#     },
+#     "staticfiles": {
+#         "BACKEND": "storages.backends.s3.S3Storage",
+#         "OPTIONS": {
+#             "location": "static",
+#         },
+#     },
+# }
 
 
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"

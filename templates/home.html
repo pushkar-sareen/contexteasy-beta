@@ -106,7 +106,7 @@
                                 </form>
                             </li>
                             <div class="contacts-link">
-                                <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                                <!-- <form id="uploadForm" method="POST" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="mini-upload">
                                         <div class="mini-upload-header">
@@ -120,7 +120,7 @@
                                             <label for="fileInput" class="choose-btn">
                                                 Choose
                                             </label>
-                                            <input type="file" id="fileInput" name="documents" multiple
+                                            <input type="file"  name="documents" multiple
                                                 accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx" hidden>
                                         </div>
 
@@ -139,7 +139,39 @@
                                             Upload
                                         </button>
                                     </div>
+                                </form> -->
+
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                
+                                    <div class="upload-section">
+                                        <h3>📄 Upload Document</h3>
+                                
+                                        <div class="drop-zone" id="dropZone">
+                                
+                                            <input
+                                                type="file"
+                                                id="fileInput"
+                                                name="documents"
+                                                accept=".pdf,.txt,.md,.csv"
+                                                hidden
+                                            >
+                                
+                                            <label for="fileInput" class="file-upload-btn">
+                                                📄 Choose File
+                                            </label>
+                                
+                                            <br><br>
+                                
+                                            <button type="submit">
+                                                Upload
+                                            </button>
+                                
+                                        </div>
+                                    </div>
                                 </form>
+
+
                             </div>
                         </ul>
 
@@ -166,7 +198,7 @@
                             <li class="list-group-item contact-item">
                                 <span>{{ youtube.title }}</span>
 
-                                <a href="{% url 'delete_link' youtube.id %}"
+                                <a href="{% url 'delete_file' file.id %}"
                                     class="btn btn-sm btn-outline-danger py-0 px-2">
                                     &times;
                                 </a>
@@ -177,7 +209,7 @@
                             <li class="list-group-item contact-item">
                                 <span>{{ link.name }}</span>
 
-                                <a href="{% url 'delete_url' link.id %}"
+                                <a href="{% url 'delete_file' file.id %}"
                                     class="btn btn-sm btn-outline-danger py-0 px-2">
                                     &times;
                                 </a>
@@ -2405,7 +2437,19 @@
                                                 <p class="mb-0">would you like to remove all uploaded files ?</p>
 
                                             </div>
-                                            <a href="" class="btn btn-danger"> Delete</a>
+
+                                            <form method="POST" action="{% url 'delete_all' %}">
+                                                {% csrf_token %}
+                                            
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete all files?');"
+                                                >
+                                                    Delete All
+                                                </button>
+                                            </form>
+                                            <!-- <a href="{% url  'delete_all'%}" class="btn btn-danger"> Delete</a> -->
 
                                         </div>
                                     </li>
