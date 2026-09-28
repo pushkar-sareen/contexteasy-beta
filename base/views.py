@@ -316,6 +316,7 @@ def transaction(request):
 def index(request):
     user_data = None
     youtube_url= None
+    answer = None
 
 
 
@@ -430,6 +431,7 @@ def index(request):
         {
             "chat_data": chat_data,
             "file_names": file_names,
+            "answer":answer
         }
     )
 
