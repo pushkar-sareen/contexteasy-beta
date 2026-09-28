@@ -143,25 +143,30 @@
 
                                 <form method="POST" enctype="multipart/form-data">
                                     {% csrf_token %}
-
+                                
                                     <div class="upload-section">
                                         <h3>📄 Upload Document</h3>
-
+                                
                                         <div class="drop-zone" id="dropZone">
-
-                                            <input type="file" id="fileInput" name="documents"
-                                                accept=".pdf,.txt,.md,.csv" hidden>
-
+                                
+                                            <input
+                                                type="file"
+                                                id="fileInput"
+                                                name="documents"
+                                                accept=".pdf,.txt,.md,.csv"
+                                                hidden
+                                            >
+                                
                                             <label for="fileInput" class="file-upload-btn">
                                                 📄 Choose File
                                             </label>
-
+                                
                                             <br><br>
-
+                                
                                             <button type="submit">
                                                 Upload
                                             </button>
-
+                                
                                         </div>
                                     </div>
                                 </form>
@@ -1200,9 +1205,9 @@
                                             </li>
                                             <!-- List Group Item End -->
 
+                                            
 
-
-
+                                           
 
                                             <!-- List Group Item Start -->
                                             <li class="list-group-item py-2">
@@ -1226,8 +1231,8 @@
                                             </li>
                                             <!-- List Group Item End -->
 
-
-
+                                           
+                                          
 
                                         </ul>
                                         <!-- List Group End -->
@@ -1785,8 +1790,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center">
                                     <div class="avatar avatar-lg mb-3">
-                                        <img class="avatar-img" src="{% static 'assets/media/images/profile.png'%}"
-                                            alt="profile">
+                                        <img class="avatar-img" src="{% static 'assets/media/images/profile.png'%}" alt="profile">
                                     </div>
 
                                     <div class="d-flex flex-column align-items-center">
@@ -2436,13 +2440,16 @@
 
                                             <form method="POST" action="{% url 'delete_all' %}">
                                                 {% csrf_token %}
-
-                                                <button type="submit" class="btn btn-danger"
-                                                    onclick="return confirm('Are you sure you want to delete all files?');">
+                                            
+                                                <button
+                                                    type="submit"
+                                                    class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete all files?');"
+                                                >
                                                     Delete All
                                                 </button>
                                             </form>
-                                            <!-- <a href="{% url  'delete_all'%}" class="btn btn-danger"> Delete</a> -->
+                                            <a href="{% url  'delete_all'%}" class="btn btn-danger"> Delete</a>
 
                                         </div>
                                     </li>
@@ -3225,110 +3232,71 @@
 
         scrollToBottom();
 
+
+
         const loadingMessage = document.createElement("div");
         loadingMessage.className = "message";
 
         loadingMessage.innerHTML = `
-    <div class="message-wrapper">
-        <div class="message-content">
-            <h6 class="text-dark">Context IQ</h6>
-            <span class="status-text">Reading...</span>
-        </div>
-    </div>
+            <div class="message-wrapper">
+                <div class="message-content">
+                    <h6 class="text-dark">Context IQ</h6>
+                    <span class="status-text">Reading...</span>
+                </div>
+            </div>
 
-    <div class="message-options">
-        <div class="avatar avatar-sm">
-            <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        </div>
+            <div class="message-options">
+                <div class="avatar avatar-sm">
+                    <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+                </div>
 
-        <span class="message-date">
-            ${getCurrentTime()}
-        </span>
-    </div>
-`;
+                <span class="message-date">
+                    ${getCurrentTime()}
+                </span>
+            </div>
+        `;
 
         messageDay.appendChild(loadingMessage);
+
         scrollToBottom();
+
+
 
         const statusText = loadingMessage.querySelector(".status-text");
 
-        // After 10 seconds
+
+
         const thinkingTimer = setTimeout(() => {
             statusText.textContent = "Thinking...";
         }, 10000);
 
-        // After 30 seconds
+
+
         const generatingTimer = setTimeout(() => {
             statusText.textContent = "Generating answer...";
         }, 30000);
 
         try {
+            const response = await fetch("", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: new URLSearchParams({
+                    data: value
+                })
+            });
 
-    const response = await fetch("{% url 'chat' %}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-CSRFToken": "{{ csrf_token }}",
-            "X-Requested-With": "XMLHttpRequest"
-        },
-        body: new URLSearchParams({
-            data: value
-        }),
-        credentials: "same-origin"
-});
-
-console.log("Requested URL:", "{% url 'chat' %}");
-console.log("Final URL:", response.url);
-console.log("Status:", response.status);
-console.log("Redirected:", response.redirected);
-console.log("Content-Type:", response.headers.get("content-type"));
-
-
-console.log("RAW RESPONSE:", responseText);
-
-// Read the response body exactly once.
-// Django may return JSON, HTML (login/debug page), or plain text.
-const responseText = await response.text();
-const contentType = response.headers.get("content-type") || "";
-
-console.log("HTTP Status:", response.status);
-console.log("Content-Type:", contentType);
-console.log("Raw server response:", responseText);
-
-            let result = null;
-
-            // Parse JSON only when possible.
-            try {
-                result = JSON.parse(responseText);
-            } catch (jsonError) {
-                const trimmed = responseText.trim();
-                const looksLikeHtml =
-                    trimmed.startsWith("<!DOCTYPE") ||
-                    trimmed.startsWith("<html") ||
-                    trimmed.startsWith("<");
-
-                if (looksLikeHtml) {
-                    throw new Error(
-                        `Django returned HTML instead of JSON (HTTP ${response.status}).\n\n${responseText}`
-                    );
-                }
-
-                throw new Error(
-                    `Server returned invalid JSON (HTTP ${response.status}).\n\n${responseText || "Empty response"}`
-                );
+            if (!response.ok) {
+                throw new Error("Server error: " + response.status);
             }
 
-            // Handle HTTP and application-level JSON errors.
-            if (!response.ok || result.error) {
-                throw new Error(
-                    result.error ||
-                    result.message ||
-                    result.detail ||
-                    `Server error (${response.status})`
-                );
-            }
+            const result = await response.json();
 
-            console.log("Server response:", result);
+            console.log(result);
+
+
 
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
@@ -3337,7 +3305,7 @@ console.log("Raw server response:", responseText);
                 <div class="message-wrapper">
                     <div class="message-content">
                         <h6 class="text-dark">Context IQ</h6>
-                        <span>${escapeHtml(result.answer || "No answer returned")}</span>
+                        <span>${escapeHtml(result.answer)}</span>
                     </div>
                 </div>
 
@@ -3356,7 +3324,7 @@ console.log("Raw server response:", responseText);
 
         } catch (error) {
 
-            console.error("Request Error:", error);
+            console.error("Error:", error);
 
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
@@ -3364,8 +3332,8 @@ console.log("Raw server response:", responseText);
             loadingMessage.innerHTML = `
                 <div class="message-wrapper">
                     <div class="message-content">
-                        <h6 class="text-dark">Context IQ - Error</h6>
-                        <pre class="text-danger" style="white-space: pre-wrap; word-break: break-word; max-height: 500px; overflow-y: auto;">${escapeHtml(error.message || String(error))}</pre>
+                        <h6 class="text-dark">Context IQ</h6>
+                        <span>Hi Please Login To start Communicating with your Data </span>
                     </div>
                 </div>
 
@@ -3379,124 +3347,7 @@ console.log("Raw server response:", responseText);
                     </span>
                 </div>
             `;
-
-            scrollToBottom();
         }
-
-        // const loadingMessage = document.createElement("div");
-        // loadingMessage.className = "message";
-
-        // loadingMessage.innerHTML = `
-        //     <div class="message-wrapper">
-        //         <div class="message-content">
-        //             <h6 class="text-dark">Context IQ</h6>
-        //             <span class="status-text">Reading...</span>
-        //         </div>
-        //     </div>
-
-        //     <div class="message-options">
-        //         <div class="avatar avatar-sm">
-        //             <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //         </div>
-
-        //         <span class="message-date">
-        //             ${getCurrentTime()}
-        //         </span>
-        //     </div>
-        // `;
-
-        // messageDay.appendChild(loadingMessage);
-
-        // scrollToBottom();
-
-
-
-        // const statusText = loadingMessage.querySelector(".status-text");
-
-
-
-        // const thinkingTimer = setTimeout(() => {
-        //     statusText.textContent = "Thinking...";
-        // }, 10000);
-
-
-
-        // const generatingTimer = setTimeout(() => {
-        //     statusText.textContent = "Generating answer...";
-        // }, 30000);
-
-        // try {
-        //     const response = await fetch("", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/x-www-form-urlencoded",
-        //             "X-CSRFToken": "{{ csrf_token }}"
-        //         },
-        //         body: new URLSearchParams({
-        //             data: value
-        //         })
-        //     });
-
-        //     if (!response.ok) {
-        //         throw new Error("Server error: " + response.status);
-        //     }
-
-        //     const result = await response.json();
-
-        //     console.log(result);
-
-
-
-        //     clearTimeout(thinkingTimer);
-        //     clearTimeout(generatingTimer);
-
-        //     loadingMessage.innerHTML = `
-        //         <div class="message-wrapper">
-        //             <div class="message-content">
-        //                 <h6 class="text-dark">Context IQ</h6>
-        //                 <span>${escapeHtml(result.answer)}</span>
-        //             </div>
-        //         </div>
-
-        //         <div class="message-options">
-        //             <div class="avatar avatar-sm">
-        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //             </div>
-
-        //             <span class="message-date">
-        //                 ${getCurrentTime()}
-        //             </span>
-        //         </div>
-        //     `;
-
-        //     scrollToBottom();
-
-        // } catch (error) {
-
-        //     console.error("Error:", error);
-
-        //     clearTimeout(thinkingTimer);
-        //     clearTimeout(generatingTimer);
-
-        //     loadingMessage.innerHTML = `
-        //         <div class="message-wrapper">
-        //             <div class="message-content">
-        //                 <h6 class="text-dark">Context IQ</h6>
-        //                 <span>Hi Please Login To start Communicating with your Data </span>
-        //             </div>
-        //         </div>
-
-        //         <div class="message-options">
-        //             <div class="avatar avatar-sm">
-        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //             </div>
-
-        //             <span class="message-date">
-        //                 ${getCurrentTime()}
-        //             </span>
-        //         </div>
-        //     `;
-        // }
 
         input.disabled = false;
         button.disabled = false;
