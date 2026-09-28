@@ -3275,46 +3275,47 @@
                 })
             });
 
-            // -----------------------------------------
-            // HANDLE SERVER ERRORS
-            // -----------------------------------------
-            if (!response.ok) {
+            // Read the response body exactly once.
+            // Django may return JSON, HTML (login/debug page), or plain text.
+            const responseText = await response.text();
+            const contentType = response.headers.get("content-type") || "";
 
-                let errorMessage = `Server error (${response.status})`;
+            console.log("HTTP Status:", response.status);
+            console.log("Content-Type:", contentType);
+            console.log("Raw server response:", responseText);
 
-                try {
-                    // Read response as text first
-                    const errorText = await response.text();
+            let result = null;
 
-                    if (errorText) {
-                        try {
-                            // Try parsing JSON
-                            const errorData = JSON.parse(errorText);
+            // Parse JSON only when possible.
+            try {
+                result = JSON.parse(responseText);
+            } catch (jsonError) {
+                const trimmed = responseText.trim();
+                const looksLikeHtml =
+                    trimmed.startsWith("<!DOCTYPE") ||
+                    trimmed.startsWith("<html") ||
+                    trimmed.startsWith("<");
 
-                            errorMessage =
-                                errorData.error ||
-                                errorData.message ||
-                                errorData.detail ||
-                                errorText;
-
-                        } catch (jsonError) {
-                            // Server returned HTML/text instead of JSON
-                            errorMessage = errorText;
-                        }
-                    }
-
-                } catch (readError) {
-                    console.error("Could not read error response:", readError);
+                if (looksLikeHtml) {
+                    throw new Error(
+                        `Django returned HTML instead of JSON (HTTP ${response.status}).\n\n${responseText}`
+                    );
                 }
 
-                throw new Error(errorMessage);
+                throw new Error(
+                    `Server returned invalid JSON (HTTP ${response.status}).\n\n${responseText || "Empty response"}`
+                );
             }
 
-            // -----------------------------------------
-            // SUCCESS RESPONSE
-            // -----------------------------------------
-
-            const result = await response.json();
+            // Handle HTTP and application-level JSON errors.
+            if (!response.ok || result.error) {
+                throw new Error(
+                    result.error ||
+                    result.message ||
+                    result.detail ||
+                    `Server error (${response.status})`
+                );
+            }
 
             console.log("Server response:", result);
 
@@ -3322,32 +3323,23 @@
             clearTimeout(generatingTimer);
 
             loadingMessage.innerHTML = `
-        <div class="message-wrapper">
-            <div class="message-content">
-                <h6 class="text-dark">Context IQ</h6>
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        <h6 class="text-dark">Context IQ</h6>
+                        <span>${escapeHtml(result.answer || "No answer returned")}</span>
+                    </div>
+                </div>
 
-                <span>
-                    ${escapeHtml(result.answer)}
-                </span>
+                <div class="message-options">
+                    <div class="avatar avatar-sm">
+                        <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+                    </div>
 
-            </div>
-        </div>
-
-        <div class="message-options">
-
-            <div class="avatar avatar-sm">
-                <img
-                    alt=""
-                    src="{% static 'assets/media/avatar/4.png' %}"
-                >
-            </div>
-
-            <span class="message-date">
-                ${getCurrentTime()}
-            </span>
-
-        </div>
-    `;
+                    <span class="message-date">
+                        ${getCurrentTime()}
+                    </span>
+                </div>
+            `;
 
             scrollToBottom();
 
@@ -3358,44 +3350,24 @@
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
 
-            // -----------------------------------------
-            // SHOW REAL ERROR IN CHAT
-            // -----------------------------------------
-
             loadingMessage.innerHTML = `
-        <div class="message-wrapper">
+                <div class="message-wrapper">
+                    <div class="message-content">
+                        <h6 class="text-dark">Context IQ - Error</h6>
+                        <pre class="text-danger" style="white-space: pre-wrap; word-break: break-word; max-height: 500px; overflow-y: auto;">${escapeHtml(error.message || String(error))}</pre>
+                    </div>
+                </div>
 
-            <div class="message-content">
+                <div class="message-options">
+                    <div class="avatar avatar-sm">
+                        <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+                    </div>
 
-                <h6 class="text-dark">
-                    Context IQ
-                </h6>
-
-                <span class="text-danger">
-                    ${escapeHtml(error.message || "Unknown error occurred")}
-                </span>
-
-            </div>
-
-        </div>
-
-        <div class="message-options">
-
-            <div class="avatar avatar-sm">
-
-                <img
-                    alt=""
-                    src="{% static 'assets/media/avatar/4.png' %}"
-                >
-
-            </div>
-
-            <span class="message-date">
-                ${getCurrentTime()}
-            </span>
-
-        </div>
-    `;
+                    <span class="message-date">
+                        ${getCurrentTime()}
+                    </span>
+                </div>
+            `;
 
             scrollToBottom();
         }
