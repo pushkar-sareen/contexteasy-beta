@@ -328,25 +328,37 @@ def index(request):
     try:
         if request.method == "POST":
             user_input = request.POST.get("data")
-            print(user_input)
-            answer = chat_context(user=user_data, user_input=user_input)
-            print(answer)
-            
-            
+
+            print("USER INPUT:", user_input)
+
+            answer = chat_context(
+                user=user_data,
+                user_input=user_input
+            )
+
+            print("ANSWER:", answer)
+
             Chat.objects.create(
-                user = request.user if request.user.is_authenticated else None,
+                user=request.user if request.user.is_authenticated else None,
                 user_input=user_input,
                 response=answer
             )
+
             DatabaseChat.objects.create(
                 user_input=user_input,
                 response=answer
             )
+
             return JsonResponse({
                 "answer": answer
             })
-    except:
-        pass
+
+    except Exception as e:
+        print("CHAT ERROR:", repr(e))
+
+        return JsonResponse({
+            "error": str(e)
+        }, status=500)
 
 
     if request.method == "POST" and request.FILES.get("documents"):
