@@ -3182,88 +3182,82 @@
 </div>
 <!-- Main Layout End -->
 
-
 <script>
     const input = document.getElementById("textInput");
     const button = document.getElementById("submitBtn");
     const messageDay = document.querySelector(".message-day");
-
+    
     async function submitMessage() {
         const value = input.value.trim();
-
+    
         if (!value) {
             return;
         }
-
+    
         input.disabled = true;
         button.disabled = true;
-
+    
         const userMessage = document.createElement("div");
         userMessage.className = "message self";
-
+    
         userMessage.innerHTML = `
             <div class="message-wrapper">
                 <div class="message-content">
                     <span>${escapeHtml(value)}.</span>
                 </div>
             </div>
-
+    
             <div class="message-options">
                 <div class="avatar avatar-sm">
                     <img alt="" src="{% static 'assets/media/avatar/6.png' %}">
                 </div>
-
+    
                 <span class="message-date">
                     ${getCurrentTime()}
                 </span>
             </div>
         `;
-
+    
         messageDay.appendChild(userMessage);
-
         input.value = "";
-
         scrollToBottom();
-
+    
         const loadingMessage = document.createElement("div");
         loadingMessage.className = "message";
-
+    
         loadingMessage.innerHTML = `
-    <div class="message-wrapper">
-        <div class="message-content">
-            <h6 class="text-dark">Context IQ</h6>
-            <span class="status-text">Reading...</span>
-        </div>
-    </div>
-
-    <div class="message-options">
-        <div class="avatar avatar-sm">
-            <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        </div>
-
-        <span class="message-date">
-            ${getCurrentTime()}
-        </span>
-    </div>
-`;
-
+            <div class="message-wrapper">
+                <div class="message-content">
+                    <h6 class="text-dark">Context IQ</h6>
+                    <span class="status-text">Reading...</span>
+                </div>
+            </div>
+    
+            <div class="message-options">
+                <div class="avatar avatar-sm">
+                    <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+                </div>
+    
+                <span class="message-date">
+                    ${getCurrentTime()}
+                </span>
+            </div>
+        `;
+    
         messageDay.appendChild(loadingMessage);
         scrollToBottom();
-
+    
         const statusText = loadingMessage.querySelector(".status-text");
-
-        // After 10 seconds
+    
         const thinkingTimer = setTimeout(() => {
             statusText.textContent = "Thinking...";
         }, 10000);
-
-        // After 30 seconds
+    
         const generatingTimer = setTimeout(() => {
             statusText.textContent = "Generating answer...";
         }, 30000);
-
+    
         try {
-
             const response = await fetch("{% url 'chat' %}", {
                 method: "POST",
                 headers: {
@@ -3271,55 +3265,52 @@
                     "X-CSRFToken": "{{ csrf_token }}",
                     "X-Requested-With": "XMLHttpRequest"
                 },
+                credentials: "same-origin",
                 body: new URLSearchParams({
                     data: value
-                }),
-                credentials: "same-origin"
+                })
             });
-
+    
+            // Read the body exactly once and only after `response` exists.
+            const responseText = await response.text();
+            const contentType = response.headers.get("content-type") || "";
+    
             console.log("Requested URL:", "{% url 'chat' %}");
             console.log("Final URL:", response.url);
             console.log("Status:", response.status);
+            console.log("OK:", response.ok);
             console.log("Redirected:", response.redirected);
-            console.log("Content-Type:", response.headers.get("content-type"));
-
-
-
-            console.log("RAW RESPONSE:", responseText);
-
-            // Read the response body exactly once.
-            // Django may return JSON, HTML (login/debug page), or plain text.
-            const responseText = await response.text();
-            const contentType = response.headers.get("content-type") || "";
-
-            console.log("HTTP Status:", response.status);
             console.log("Content-Type:", contentType);
-            console.log("Raw server response:", responseText);
-
-            let result = null;
-
-            // Parse JSON only when possible.
+            console.log("RAW RESPONSE:", responseText);
+    
+            let result;
+    
             try {
                 result = JSON.parse(responseText);
-            } catch (jsonError) {
+            } catch (parseError) {
                 const trimmed = responseText.trim();
                 const looksLikeHtml =
                     trimmed.startsWith("<!DOCTYPE") ||
                     trimmed.startsWith("<html") ||
                     trimmed.startsWith("<");
-
+    
                 if (looksLikeHtml) {
                     throw new Error(
-                        `Django returned HTML instead of JSON (HTTP ${response.status}).\n\n${responseText}`
+                        `Django returned HTML instead of JSON.\n\n` +
+                        `HTTP Status: ${response.status}\n` +
+                        `Final URL: ${response.url}\n` +
+                        `Redirected: ${response.redirected}\n` +
+                        `Content-Type: ${contentType}\n\n` +
+                        `Open DevTools > Network > this request > Response to inspect the returned HTML.`
                     );
                 }
-
+    
                 throw new Error(
-                    `Server returned invalid JSON (HTTP ${response.status}).\n\n${responseText || "Empty response"}`
+                    `Server returned invalid JSON (HTTP ${response.status}).\n\n` +
+                    (responseText || "Empty response")
                 );
             }
-
-            // Handle HTTP and application-level JSON errors.
+    
             if (!response.ok || result.error) {
                 throw new Error(
                     result.error ||
@@ -3328,12 +3319,10 @@
                     `Server error (${response.status})`
                 );
             }
-
-            console.log("Server response:", result);
-
+    
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
-
+    
             loadingMessage.innerHTML = `
                 <div class="message-wrapper">
                     <div class="message-content">
@@ -3341,250 +3330,160 @@
                         <span>${escapeHtml(result.answer || "No answer returned")}</span>
                     </div>
                 </div>
-
+    
                 <div class="message-options">
                     <div class="avatar avatar-sm">
                         <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
                     </div>
-
+    
                     <span class="message-date">
                         ${getCurrentTime()}
                     </span>
                 </div>
             `;
-
+    
             scrollToBottom();
-
+    
         } catch (error) {
-
             console.error("Request Error:", error);
-
+    
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
-
+    
             loadingMessage.innerHTML = `
                 <div class="message-wrapper">
                     <div class="message-content">
                         <h6 class="text-dark">Context IQ - Error</h6>
-                        <pre class="text-danger" style="white-space: pre-wrap; word-break: break-word; max-height: 500px; overflow-y: auto;">${escapeHtml(error.message || String(error))}</pre>
+                        <pre class="text-danger"
+                             style="white-space: pre-wrap; word-break: break-word; max-height: 500px; overflow-y: auto;">${escapeHtml(error.message || String(error))}</pre>
                     </div>
                 </div>
-
+    
                 <div class="message-options">
                     <div class="avatar avatar-sm">
                         <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
                     </div>
-
+    
                     <span class="message-date">
                         ${getCurrentTime()}
                     </span>
                 </div>
             `;
-
+    
             scrollToBottom();
+    
+        } finally {
+            input.disabled = false;
+            button.disabled = false;
+            input.focus();
         }
-
-        // const loadingMessage = document.createElement("div");
-        // loadingMessage.className = "message";
-
-        // loadingMessage.innerHTML = `
-        //     <div class="message-wrapper">
-        //         <div class="message-content">
-        //             <h6 class="text-dark">Context IQ</h6>
-        //             <span class="status-text">Reading...</span>
-        //         </div>
-        //     </div>
-
-        //     <div class="message-options">
-        //         <div class="avatar avatar-sm">
-        //             <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //         </div>
-
-        //         <span class="message-date">
-        //             ${getCurrentTime()}
-        //         </span>
-        //     </div>
-        // `;
-
-        // messageDay.appendChild(loadingMessage);
-
-        // scrollToBottom();
-
-
-
-        // const statusText = loadingMessage.querySelector(".status-text");
-
-
-
-        // const thinkingTimer = setTimeout(() => {
-        //     statusText.textContent = "Thinking...";
-        // }, 10000);
-
-
-
-        // const generatingTimer = setTimeout(() => {
-        //     statusText.textContent = "Generating answer...";
-        // }, 30000);
-
-        // try {
-        //     const response = await fetch("", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/x-www-form-urlencoded",
-        //             "X-CSRFToken": "{{ csrf_token }}"
-        //         },
-        //         body: new URLSearchParams({
-        //             data: value
-        //         })
-        //     });
-
-        //     if (!response.ok) {
-        //         throw new Error("Server error: " + response.status);
-        //     }
-
-        //     const result = await response.json();
-
-        //     console.log(result);
-
-
-
-        //     clearTimeout(thinkingTimer);
-        //     clearTimeout(generatingTimer);
-
-        //     loadingMessage.innerHTML = `
-        //         <div class="message-wrapper">
-        //             <div class="message-content">
-        //                 <h6 class="text-dark">Context IQ</h6>
-        //                 <span>${escapeHtml(result.answer)}</span>
-        //             </div>
-        //         </div>
-
-        //         <div class="message-options">
-        //             <div class="avatar avatar-sm">
-        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //             </div>
-
-        //             <span class="message-date">
-        //                 ${getCurrentTime()}
-        //             </span>
-        //         </div>
-        //     `;
-
-        //     scrollToBottom();
-
-        // } catch (error) {
-
-        //     console.error("Error:", error);
-
-        //     clearTimeout(thinkingTimer);
-        //     clearTimeout(generatingTimer);
-
-        //     loadingMessage.innerHTML = `
-        //         <div class="message-wrapper">
-        //             <div class="message-content">
-        //                 <h6 class="text-dark">Context IQ</h6>
-        //                 <span>Hi Please Login To start Communicating with your Data </span>
-        //             </div>
-        //         </div>
-
-        //         <div class="message-options">
-        //             <div class="avatar avatar-sm">
-        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-        //             </div>
-
-        //             <span class="message-date">
-        //                 ${getCurrentTime()}
-        //             </span>
-        //         </div>
-        //     `;
-        // }
-
-        input.disabled = false;
-        button.disabled = false;
-        input.focus();
     }
-
-
+    
     function getCurrentTime() {
         return new Date().toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit"
         });
     }
-
-
+    
     function scrollToBottom() {
         const chatFinished = document.getElementById("chat-finished");
-
+    
         if (chatFinished) {
             chatFinished.scrollIntoView({
                 behavior: "smooth"
             });
-        } else {
+        } else if (messageDay) {
             messageDay.scrollTop = messageDay.scrollHeight;
         }
     }
-
-
-    button.addEventListener("click", submitMessage);
-
-
-    input.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            submitMessage();
-        }
-    });
-
-
+    
     function escapeHtml(text) {
         const div = document.createElement("div");
-        div.textContent = text;
+        div.textContent = text == null ? "" : String(text);
         return div.innerHTML;
     }
-
-    document.getElementById("youtubeBtn").addEventListener("click", function () {
-        const youtubeUrl = document.getElementById("youtube").value;
-
-        if (!youtubeUrl) {
-            alert("Please enter a YouTube URL");
-            return;
-        }
-
-        fetch("/save-social-media/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCookie("csrftoken")
-            },
-            body: JSON.stringify({
-                youtube: youtubeUrl
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-
+    
+    if (button) {
+        button.addEventListener("click", submitMessage);
+    }
+    
+    if (input) {
+        input.addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                submitMessage();
+            }
+        });
+    }
+    
+    const youtubeBtn = document.getElementById("youtubeBtn");
+    
+    if (youtubeBtn) {
+        youtubeBtn.addEventListener("click", async function () {
+            const youtubeInput = document.getElementById("youtube");
+            const youtubeUrl = youtubeInput ? youtubeInput.value.trim() : "";
+    
+            if (!youtubeUrl) {
+                alert("Please enter a YouTube URL");
+                return;
+            }
+    
+            try {
+                const response = await fetch("/save-social-media/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken"),
+                        "X-Requested-With": "XMLHttpRequest"
+                    },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                        youtube: youtubeUrl
+                    })
+                });
+    
+                const responseText = await response.text();
+                let data;
+    
+                try {
+                    data = JSON.parse(responseText);
+                } catch (error) {
+                    throw new Error(
+                        `YouTube endpoint returned non-JSON (HTTP ${response.status}).\n\n` +
+                        (responseText || "Empty response")
+                    );
+                }
+    
+                if (!response.ok || data.error) {
+                    throw new Error(
+                        data.error ||
+                        data.message ||
+                        `Server error (${response.status})`
+                    );
+                }
+    
+                console.log("YouTube response:", data);
+    
                 if (data.success) {
                     alert("YouTube URL saved successfully");
                 }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    });
-
-
-    // Get Django CSRF token
+            } catch (error) {
+                console.error("YouTube request error:", error);
+                alert(error.message || "Could not save YouTube URL");
+            }
+        });
+    }
+    
     function getCookie(name) {
         let cookieValue = null;
-
+    
         if (document.cookie && document.cookie !== "") {
             const cookies = document.cookie.split(";");
-
+    
             for (let cookie of cookies) {
                 cookie = cookie.trim();
-
+    
                 if (cookie.startsWith(name + "=")) {
                     cookieValue = decodeURIComponent(
                         cookie.substring(name.length + 1)
@@ -3593,11 +3492,11 @@
                 }
             }
         }
-
+    
         return cookieValue;
     }
-
-</script>
+    </script>
+    
 
 
 {% endblock %}
