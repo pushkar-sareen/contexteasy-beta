@@ -3264,25 +3264,36 @@
 
         try {
 
-            const response = await fetch("", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRFToken": "{{ csrf_token }}"
-                },
-                body: new URLSearchParams({
-                    data: value
-                })
-            });
+    const response = await fetch("{% url 'chat' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest"
+        },
+        body: new URLSearchParams({
+            data: value
+        }),
+        credentials: "same-origin"
+});
 
-            // Read the response body exactly once.
-            // Django may return JSON, HTML (login/debug page), or plain text.
-            const responseText = await response.text();
-            const contentType = response.headers.get("content-type") || "";
+console.log("Requested URL:", "{% url 'chat' %}");
+console.log("Final URL:", response.url);
+console.log("Status:", response.status);
+console.log("Redirected:", response.redirected);
+console.log("Content-Type:", response.headers.get("content-type"));
 
-            console.log("HTTP Status:", response.status);
-            console.log("Content-Type:", contentType);
-            console.log("Raw server response:", responseText);
+
+console.log("RAW RESPONSE:", responseText);
+
+// Read the response body exactly once.
+// Django may return JSON, HTML (login/debug page), or plain text.
+const responseText = await response.text();
+const contentType = response.headers.get("content-type") || "";
+
+console.log("HTTP Status:", response.status);
+console.log("Content-Type:", contentType);
+console.log("Raw server response:", responseText);
 
             let result = null;
 

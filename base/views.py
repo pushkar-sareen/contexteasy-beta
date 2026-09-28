@@ -327,7 +327,9 @@ def index(request):
     try:
         if request.method == "POST":
             user_input = request.POST.get("data")
+            print(user_input)
             answer = chat_context(user=user_data, user_input=user_input)
+            print(answer)
             
             
             Chat.objects.create(
