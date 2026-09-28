@@ -143,30 +143,25 @@
 
                                 <form method="POST" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                
+
                                     <div class="upload-section">
                                         <h3>📄 Upload Document</h3>
-                                
+
                                         <div class="drop-zone" id="dropZone">
-                                
-                                            <input
-                                                type="file"
-                                                id="fileInput"
-                                                name="documents"
-                                                accept=".pdf,.txt,.md,.csv"
-                                                hidden
-                                            >
-                                
+
+                                            <input type="file" id="fileInput" name="documents"
+                                                accept=".pdf,.txt,.md,.csv" hidden>
+
                                             <label for="fileInput" class="file-upload-btn">
                                                 📄 Choose File
                                             </label>
-                                
+
                                             <br><br>
-                                
+
                                             <button type="submit">
                                                 Upload
                                             </button>
-                                
+
                                         </div>
                                     </div>
                                 </form>
@@ -1205,9 +1200,9 @@
                                             </li>
                                             <!-- List Group Item End -->
 
-                                            
 
-                                           
+
+
 
                                             <!-- List Group Item Start -->
                                             <li class="list-group-item py-2">
@@ -1231,8 +1226,8 @@
                                             </li>
                                             <!-- List Group Item End -->
 
-                                           
-                                          
+
+
 
                                         </ul>
                                         <!-- List Group End -->
@@ -1790,7 +1785,8 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center">
                                     <div class="avatar avatar-lg mb-3">
-                                        <img class="avatar-img" src="{% static 'assets/media/images/profile.png'%}" alt="profile">
+                                        <img class="avatar-img" src="{% static 'assets/media/images/profile.png'%}"
+                                            alt="profile">
                                     </div>
 
                                     <div class="d-flex flex-column align-items-center">
@@ -2440,12 +2436,9 @@
 
                                             <form method="POST" action="{% url 'delete_all' %}">
                                                 {% csrf_token %}
-                                            
-                                                <button
-                                                    type="submit"
-                                                    class="btn btn-danger"
-                                                    onclick="return confirm('Are you sure you want to delete all files?');"
-                                                >
+
+                                                <button type="submit" class="btn btn-danger"
+                                                    onclick="return confirm('Are you sure you want to delete all files?');">
                                                     Delete All
                                                 </button>
                                             </form>
@@ -3232,51 +3225,45 @@
 
         scrollToBottom();
 
-
-
         const loadingMessage = document.createElement("div");
         loadingMessage.className = "message";
 
         loadingMessage.innerHTML = `
-            <div class="message-wrapper">
-                <div class="message-content">
-                    <h6 class="text-dark">Context IQ</h6>
-                    <span class="status-text">Reading...</span>
-                </div>
-            </div>
+    <div class="message-wrapper">
+        <div class="message-content">
+            <h6 class="text-dark">Context IQ</h6>
+            <span class="status-text">Reading...</span>
+        </div>
+    </div>
 
-            <div class="message-options">
-                <div class="avatar avatar-sm">
-                    <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-                </div>
+    <div class="message-options">
+        <div class="avatar avatar-sm">
+            <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+        </div>
 
-                <span class="message-date">
-                    ${getCurrentTime()}
-                </span>
-            </div>
-        `;
+        <span class="message-date">
+            ${getCurrentTime()}
+        </span>
+    </div>
+`;
 
         messageDay.appendChild(loadingMessage);
-
         scrollToBottom();
-
-
 
         const statusText = loadingMessage.querySelector(".status-text");
 
-
-
+        // After 10 seconds
         const thinkingTimer = setTimeout(() => {
             statusText.textContent = "Thinking...";
         }, 10000);
 
-
-
+        // After 30 seconds
         const generatingTimer = setTimeout(() => {
             statusText.textContent = "Generating answer...";
         }, 30000);
 
         try {
+
             const response = await fetch("", {
                 method: "POST",
                 headers: {
@@ -3288,66 +3275,245 @@
                 })
             });
 
+            // -----------------------------------------
+            // HANDLE SERVER ERRORS
+            // -----------------------------------------
             if (!response.ok) {
-                throw new Error("Server error: " + response.status);
+
+                let errorMessage = `Server error (${response.status})`;
+
+                try {
+                    // Read response as text first
+                    const errorText = await response.text();
+
+                    if (errorText) {
+                        try {
+                            // Try parsing JSON
+                            const errorData = JSON.parse(errorText);
+
+                            errorMessage =
+                                errorData.error ||
+                                errorData.message ||
+                                errorData.detail ||
+                                errorText;
+
+                        } catch (jsonError) {
+                            // Server returned HTML/text instead of JSON
+                            errorMessage = errorText;
+                        }
+                    }
+
+                } catch (readError) {
+                    console.error("Could not read error response:", readError);
+                }
+
+                throw new Error(errorMessage);
             }
+
+            // -----------------------------------------
+            // SUCCESS RESPONSE
+            // -----------------------------------------
 
             const result = await response.json();
 
-            console.log(result);
-
-
+            console.log("Server response:", result);
 
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
 
             loadingMessage.innerHTML = `
-                <div class="message-wrapper">
-                    <div class="message-content">
-                        <h6 class="text-dark">Context IQ</h6>
-                        <span>${escapeHtml(result.answer)}</span>
-                    </div>
-                </div>
+        <div class="message-wrapper">
+            <div class="message-content">
+                <h6 class="text-dark">Context IQ</h6>
 
-                <div class="message-options">
-                    <div class="avatar avatar-sm">
-                        <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-                    </div>
+                <span>
+                    ${escapeHtml(result.answer)}
+                </span>
 
-                    <span class="message-date">
-                        ${getCurrentTime()}
-                    </span>
-                </div>
-            `;
+            </div>
+        </div>
+
+        <div class="message-options">
+
+            <div class="avatar avatar-sm">
+                <img
+                    alt=""
+                    src="{% static 'assets/media/avatar/4.png' %}"
+                >
+            </div>
+
+            <span class="message-date">
+                ${getCurrentTime()}
+            </span>
+
+        </div>
+    `;
 
             scrollToBottom();
 
         } catch (error) {
 
-            console.error("Error:", error);
+            console.error("Request Error:", error);
 
             clearTimeout(thinkingTimer);
             clearTimeout(generatingTimer);
 
+            // -----------------------------------------
+            // SHOW REAL ERROR IN CHAT
+            // -----------------------------------------
+
             loadingMessage.innerHTML = `
-                <div class="message-wrapper">
-                    <div class="message-content">
-                        <h6 class="text-dark">Context IQ</h6>
-                        <span>Hi Please Login To start Communicating with your Data </span>
-                    </div>
-                </div>
+        <div class="message-wrapper">
 
-                <div class="message-options">
-                    <div class="avatar avatar-sm">
-                        <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
-                    </div>
+            <div class="message-content">
 
-                    <span class="message-date">
-                        ${getCurrentTime()}
-                    </span>
-                </div>
-            `;
+                <h6 class="text-dark">
+                    Context IQ
+                </h6>
+
+                <span class="text-danger">
+                    ${escapeHtml(error.message || "Unknown error occurred")}
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="message-options">
+
+            <div class="avatar avatar-sm">
+
+                <img
+                    alt=""
+                    src="{% static 'assets/media/avatar/4.png' %}"
+                >
+
+            </div>
+
+            <span class="message-date">
+                ${getCurrentTime()}
+            </span>
+
+        </div>
+    `;
+
+            scrollToBottom();
         }
+
+        // const loadingMessage = document.createElement("div");
+        // loadingMessage.className = "message";
+
+        // loadingMessage.innerHTML = `
+        //     <div class="message-wrapper">
+        //         <div class="message-content">
+        //             <h6 class="text-dark">Context IQ</h6>
+        //             <span class="status-text">Reading...</span>
+        //         </div>
+        //     </div>
+
+        //     <div class="message-options">
+        //         <div class="avatar avatar-sm">
+        //             <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+        //         </div>
+
+        //         <span class="message-date">
+        //             ${getCurrentTime()}
+        //         </span>
+        //     </div>
+        // `;
+
+        // messageDay.appendChild(loadingMessage);
+
+        // scrollToBottom();
+
+
+
+        // const statusText = loadingMessage.querySelector(".status-text");
+
+
+
+        // const thinkingTimer = setTimeout(() => {
+        //     statusText.textContent = "Thinking...";
+        // }, 10000);
+
+
+
+        // const generatingTimer = setTimeout(() => {
+        //     statusText.textContent = "Generating answer...";
+        // }, 30000);
+
+        // try {
+        //     const response = await fetch("", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/x-www-form-urlencoded",
+        //             "X-CSRFToken": "{{ csrf_token }}"
+        //         },
+        //         body: new URLSearchParams({
+        //             data: value
+        //         })
+        //     });
+
+        //     if (!response.ok) {
+        //         throw new Error("Server error: " + response.status);
+        //     }
+
+        //     const result = await response.json();
+
+        //     console.log(result);
+
+
+
+        //     clearTimeout(thinkingTimer);
+        //     clearTimeout(generatingTimer);
+
+        //     loadingMessage.innerHTML = `
+        //         <div class="message-wrapper">
+        //             <div class="message-content">
+        //                 <h6 class="text-dark">Context IQ</h6>
+        //                 <span>${escapeHtml(result.answer)}</span>
+        //             </div>
+        //         </div>
+
+        //         <div class="message-options">
+        //             <div class="avatar avatar-sm">
+        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+        //             </div>
+
+        //             <span class="message-date">
+        //                 ${getCurrentTime()}
+        //             </span>
+        //         </div>
+        //     `;
+
+        //     scrollToBottom();
+
+        // } catch (error) {
+
+        //     console.error("Error:", error);
+
+        //     clearTimeout(thinkingTimer);
+        //     clearTimeout(generatingTimer);
+
+        //     loadingMessage.innerHTML = `
+        //         <div class="message-wrapper">
+        //             <div class="message-content">
+        //                 <h6 class="text-dark">Context IQ</h6>
+        //                 <span>Hi Please Login To start Communicating with your Data </span>
+        //             </div>
+        //         </div>
+
+        //         <div class="message-options">
+        //             <div class="avatar avatar-sm">
+        //                 <img alt="" src="{% static 'assets/media/avatar/4.png' %}">
+        //             </div>
+
+        //             <span class="message-date">
+        //                 ${getCurrentTime()}
+        //             </span>
+        //         </div>
+        //     `;
+        // }
 
         input.disabled = false;
         button.disabled = false;
