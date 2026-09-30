@@ -20,6 +20,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 import trafilatura
 import tldextract
+import re
+import string
 
 
 
@@ -113,13 +115,7 @@ def youtube_data(user, youtube_url):
     transcript= [i['text'] for i in raw_data['transcript']]
     return transcript
 
-# def generate_script(user,youtube_url):
-#     data= youtube_data(user, youtube_url)
-#     title = get_title(youtube_url)
-#     directory = Path(settings.MEDIA_ROOT) / f"uploads/{user.email}"
-#     with open(f"{directory}/{title}.txt", "w", encoding="utf-8") as f:
-#         for line in data:
-#             f.write(line + "\n")
+
 
 def generate_script(user, youtube_url):
     data = youtube_data(user, youtube_url)
@@ -211,6 +207,75 @@ def get_context(user, query):
     return context
 
 
+BOT_NAME = "ContextEasy"         
+MODEL_NAME = "ContextEasy"
+
+GENERIC_QA = {
+    # Greetings
+    "hi": "Hi there! How can I help you today?",
+    "hello": "Hello! What can I do for you?",
+    "hey": "Hey! How can I help?",
+    "good morning": "Good morning! How can I help you today?",
+    "good afternoon": "Good afternoon! What can I do for you?",
+    "good evening": "Good evening! How can I help?",
+    "namaste": "Namaste! How can I help you today?",
+
+    # Small talk
+    "how are you": "I'm doing well, thanks for asking! How can I help you?",
+    "how are you doing": "I'm doing great! What can I help you with?",
+    "whats up": "Not much, just ready to help. What do you need?",
+    "how is it going": "All good here! How can I help?",
+
+    # Identity
+    "who are you": f"I'm {BOT_NAME}, an AI assistant here to answer questions and help with tasks.",
+    "what is your name": f"My name is {BOT_NAME}.",
+    "whats your name": f"My name is {BOT_NAME}.",
+    "are you a bot": "Yes, I'm an AI assistant, not a human.",
+    "are you human": "No, I'm an AI assistant.",
+    "are you real": "I'm a real AI assistant, though not a person.",
+
+    # Model questions
+    "which model are you using": f"I'm powered by {MODEL_NAME}.",
+    "which model are you": f"I'm powered by {MODEL_NAME}.",
+    "what model are you": f"I'm powered by {MODEL_NAME}.",
+    "what model do you use": f"I'm powered by {MODEL_NAME}.",
+    "which llm are you": f"I'm powered by {MODEL_NAME}.",
+    "who made you": "I was built by Anthropic (the Claude model) and set up by my developers for this app.",
+    "who created you": "I was built by Anthropic (the Claude model) and set up by my developers for this app.",
+
+    # Capabilities
+    "what can you do": "I can answer questions, explain topics, write and edit text, help with code, summarize content, and more.",
+    "how can you help me": "Tell me what you're working on and I'll help, whether it's writing, coding, learning, or brainstorming.",
+    "help": "Sure! Tell me what you need help with.",
+    "can you help me": "Of course! What do you need help with?",
+
+    # Politeness
+    "thanks": "You're welcome!",
+    "thank you": "You're welcome! Let me know if you need anything else.",
+    "ok": "Great! Let me know if you need anything else.",
+    "okay": "Great! Let me know if you need anything else.",
+    "bye": "Goodbye! Have a great day!",
+    "goodbye": "Goodbye! Take care!",
+    "see you": "See you later!",
+    "good night": "Good night! Sleep well!",
+}
+
+
+def normalize(text: str) -> str:
+    """Lowercase, strip punctuation and extra spaces so 'Hi!!' matches 'hi'."""
+    text = text.lower().strip()
+    text = text.replace("'", "")  # what's -> whats
+    text = text.translate(str.maketrans("", "", string.punctuation))
+    return re.sub(r"\s+", " ", text)
+
+
+def get_generic_answer(user_input: str):
+    """Return a canned answer, or None so you can fall back to the LLM."""
+    return GENERIC_QA.get(normalize(user_input))
+
+
+
+
 
 def chat_context(user, user_input):
     SYSTEM_PROMPT = f"""
@@ -282,10 +347,7 @@ def delete_all_files(request):
 
     for uploaded in files:
         if uploaded.file:
-            # Delete actual file from S3
             uploaded.file.delete(save=False)
-
-        # Delete database record
         uploaded.delete()
 
     return redirect("chat")
@@ -311,35 +373,51 @@ def transaction(request):
     return render(request, "pricing.html")
 
 
-
-
 def index(request):
     user_data = None
-    youtube_url= None
+    youtube_url = None
     answer = None
-
-
 
     if request.user.is_authenticated:
         user_data = User.objects.get(id=request.user.id)
-        directory = Path(settings.MEDIA_ROOT) / f"uploads/{user_data.email}"
+
+        directory = (
+            Path(settings.MEDIA_ROOT)
+            / f"uploads/{user_data.email}"
+        )
         directory.mkdir(parents=True, exist_ok=True)
-    
-    try:
-        if request.method == "POST":
-            user_input = request.POST.get("data")
 
-            print("USER INPUT:", user_input)
 
-            answer = chat_context(
-                user=user_data,
-                user_input=user_input
+
+    if request.method == "POST" and "data" in request.POST:
+        user_input = request.POST.get("data", "").strip()
+
+        if not user_input:
+            return JsonResponse(
+                {"error": "Message cannot be empty"},
+                status=400
             )
 
-            print("ANSWER:", answer)
+        if user_data is None:
+            return JsonResponse(
+                {"error": "User must be authenticated"},
+                status=401
+            )
 
+        try:
+            # 1. Check generic questions first
+            answer = get_generic_answer(user_input)
+
+            # 2. If not generic, use RAG/context + LLM
+            if answer is None:
+                answer = chat_context(
+                    user=user_data,
+                    user_input=user_input
+                )
+
+            # 3. Save either type of response
             Chat.objects.create(
-                user=request.user if request.user.is_authenticated else None,
+                user=request.user,
                 user_input=user_input,
                 response=answer
             )
@@ -349,16 +427,67 @@ def index(request):
                 response=answer
             )
 
+            # 4. Return response
             return JsonResponse({
                 "answer": answer
             })
 
-    except Exception as e:
-        print("CHAT ERROR:", repr(e))
+        except Exception as e:
+            print("CHAT ERROR:", repr(e))
 
-        return JsonResponse({
-            "error": str(e)
-        }, status=500)
+            return JsonResponse(
+                {"error": str(e)},
+                status=500
+            )
+
+
+    # if request.method == "POST" and "data" in request.POST:
+    #     user_input = request.POST.get("data", "").strip()
+
+    #     if not user_input:
+    #         return JsonResponse(
+    #             {"error": "Message cannot be empty"},
+    #             status=400
+    #         )
+
+    #     if user_data is None:
+    #         return JsonResponse(
+    #             {"error": "User must be authenticated"},
+    #             status=401
+    #         )
+
+    #     try:
+    #         answer = get_generic_answer(user_input)
+
+    #         if answer is None:
+    #             answer = chat_context(
+    #                 user=user_data,
+    #                 user_input=user_input
+    #             )
+
+    #             Chat.objects.create(
+    #                 user=request.user,
+    #                 user_input=user_input,
+    #                 response=answer
+    #             )
+
+    #             DatabaseChat.objects.create(
+    #                 user_input=user_input,
+    #                 response=answer
+    #             )
+
+    #             return JsonResponse({
+    #                 "answer": answer
+    #             })
+
+    #     except Exception as e:
+    #         print("CHAT ERROR:", repr(e))
+
+    #         return JsonResponse(
+    #             {"error": str(e)},
+    #             status=500
+    #         )
+
 
 
     if request.method == "POST" and request.FILES.get("documents"):
@@ -380,21 +509,40 @@ def index(request):
             return redirect("chat")
 
         except Exception as e:
-            print("UPLOAD ERROR:", e)
+            print("UPLOAD ERROR:", repr(e))
             raise
+
 
     if request.method == "POST" and request.POST.get("youtube"):
         try:
             youtube_url = request.POST.get("youtube")
-            youtube_title = get_title(youtube_url) 
-            YoutbeLink.objects.create(user=user_data, name=youtube_url, title=youtube_title)
-            DatabaseLink.objects.create(name=youtube_url, title=youtube_title)
-            generate_script(user=user_data,youtube_url=youtube_url)
+
+            youtube_title = get_title(youtube_url)
+
+            YoutbeLink.objects.create(
+                user=user_data,
+                name=youtube_url,
+                title=youtube_title
+            )
+
+            DatabaseLink.objects.create(
+                name=youtube_url,
+                title=youtube_title
+            )
+
+            generate_script(
+                user=user_data,
+                youtube_url=youtube_url
+            )
+
             return redirect("chat")
-        
+
         except Exception as e:
-            return JsonResponse({"error": str(e)}, status=400)
-            
+            return JsonResponse(
+                {"error": str(e)},
+                status=400
+            )
+
     if request.method == "POST" and request.POST.get("url"):
         url = request.POST.get("url")
 
@@ -411,11 +559,11 @@ def index(request):
                 name=url
             )
 
-            filename = f"{slugify(url_name) or 'webpage'}.txt"
-
-            uploaded = UploadedFile(
-                user=user
+            filename = (
+                f"{slugify(url_name) or 'webpage'}.txt"
             )
+
+            uploaded = UploadedFile(user=user)
 
             uploaded.file.save(
                 filename,
@@ -428,22 +576,29 @@ def index(request):
             return redirect("chat")
 
         except Exception as e:
-            print("URL ERROR:", e)
+            print("URL ERROR:", repr(e))
 
             return JsonResponse(
                 {"error": str(e)},
                 status=400
             )
 
-    file_names = UploadedFile.objects.filter(user_id= request.user.id)
-    chat_data = Chat.objects.filter(user_id= request.user.id) 
+ 
+
+    file_names = UploadedFile.objects.filter(
+        user_id=request.user.id
+    )
+
+    chat_data = Chat.objects.filter(
+        user_id=request.user.id
+    )
+
     return render(
         request,
         "home.html",
         {
             "chat_data": chat_data,
             "file_names": file_names,
-            "answer":answer
+            "answer": answer,
         }
     )
-
