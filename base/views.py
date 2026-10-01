@@ -289,60 +289,60 @@ def chat_context(user, user_input):
     Context:
     {get_context(user, user_input)}
     """
-    resp = client.chat.completions.create(
-            model="gpt-5",
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_input}
-            ]
-        )
-    
-    # resp = requests.post(
-    #     NVIDIA_API_URL,
-    #     headers={
-    #         "Authorization": f"Bearer {NVIDIA_API_KEY}",
-    #         "Content-Type": "application/json",
-    #     },
-    #     json={
-    #         "model": NVIDIA_MODEL,
-    #         "messages": [
-    #             {
-    #                 "role": "system",
-    #                 "content": SYSTEM_PROMPT
-    #             },
-    #             {
-    #                 "role": "user",
-    #                 "content": user_input
-    #             },
-    #         ],
-    #         "max_tokens": 4096,
-    #     },
-    #     timeout=120,
-    # )
-
-    # try:
-    #     data = resp.json()
-    # except ValueError:
-    #     print("NON-JSON RESPONSE:", resp.text)
-    #     raise RuntimeError("AI API returned invalid JSON")
-
-    # if not resp.ok:
-    #     print("AI API ERROR:", resp.status_code, data)
-
-    #     raise RuntimeError(
-    #         f"AI API failed with status {resp.status_code}"
+    # resp = client.chat.completions.create(
+    #         model="gpt-5",
+    #         messages=[
+    #             {"role": "system", "content": SYSTEM_PROMPT},
+    #             {"role": "user", "content": user_input}
+    #         ]
     #     )
+    
+    resp = requests.post(
+        NVIDIA_API_URL,
+        headers={
+            "Authorization": f"Bearer {NVIDIA_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": NVIDIA_MODEL,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": user_input
+                },
+            ],
+            "max_tokens": 4096,
+        },
+        timeout=120,
+    )
 
-    # choices = data.get("choices")
+    try:
+        data = resp.json()
+    except ValueError:
+        print("NON-JSON RESPONSE:", resp.text)
+        raise RuntimeError("AI API returned invalid JSON")
 
-    # if not choices:
-    #     print("MISSING CHOICES:", data)
-    #     raise RuntimeError("AI API returned no choices")
+    if not resp.ok:
+        print("AI API ERROR:", resp.status_code, data)
 
-    # answer = choices[0]["message"]["content"]
+        raise RuntimeError(
+            f"AI API failed with status {resp.status_code}"
+        )
+
+    choices = data.get("choices")
+
+    if not choices:
+        print("MISSING CHOICES:", data)
+        raise RuntimeError("AI API returned no choices")
+
+    answer = choices[0]["message"]["content"]
 
 
-    answer = resp.choices[0].message.content
+    # answer = resp.choices[0].message.content
 
     return answer
 
