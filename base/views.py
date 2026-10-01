@@ -429,13 +429,28 @@ def index(request):
                 "answer": answer
             })
 
-        except Exception as e:
-            print("CHAT ERROR:", repr(e))
+        # except Exception as e:
+        #     print("UPLOAD ERROR:", repr(e))
 
-            return JsonResponse(
-                {"error": str(e)},
-                status=500
-            )
+        #     return JsonResponse(
+        #         {
+        #             "error": str(e),
+        #             "error_type": type(e).__name__,
+        #         },
+        #         status=500
+        #     )
+        except Exception as e:
+            print("UPLOAD ERROR:", repr(e))
+            traceback.print_exc()
+
+            return JsonResponse({
+                "answer": (
+                    f"UPLOAD ERROR\n"
+                    f"Type: {type(e).__name__}\n"
+                    f"Message: {str(e)}\n\n"
+                    f"Traceback:\n{traceback.format_exc()}"
+                )
+            })
 
 
 
