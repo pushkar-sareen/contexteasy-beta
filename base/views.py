@@ -424,9 +424,7 @@ def index(request):
             )
 
         try:
-            
             answer = get_generic_answer(user_input)
-
             
             if answer is None:
                 answer = chat_context(
@@ -461,9 +459,14 @@ def index(request):
         #         status=500
         #     )
         except Exception as e:
-            return JsonResponse({
-                "answer": f"{type(e).__name__}: {str(e)}"
-            })
+            print("CHAT ERROR:", repr(e))
+
+            return JsonResponse(
+                {
+                    "answer": f"{type(e).__name__}: {str(e)}"
+                },
+                status=500
+            )
 
 
 
