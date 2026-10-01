@@ -240,8 +240,8 @@ GENERIC_QA = {
     "what model are you": f"I'm powered by {MODEL_NAME}.",
     "what model do you use": f"I'm powered by {MODEL_NAME}.",
     "which llm are you": f"I'm powered by {MODEL_NAME}.",
-    "who made you": "I was built by Anthropic (the Claude model) and set up by my developers for this app.",
-    "who created you": "I was built by Anthropic (the Claude model) and set up by my developers for this app.",
+    "who made you": "I was built by Pingaksha Labs and set up by my developers for this app.",
+    "who created you": "I was built by Pingaksha Labs and set up by my developers for this app.",
 
     # Capabilities
     "what can you do": "I can answer questions, explain topics, write and edit text, help with code, summarize content, and more.",
@@ -280,13 +280,11 @@ def get_generic_answer(user_input: str):
 def chat_context(user, user_input):
     SYSTEM_PROMPT = f"""
     You are a helpful assistant.
-    if user asks questions from dictionary response from dictionary 
-    
+    if user asks questions from dictionary response from {GENERIC_QA} 
     otherwise Answer ONLY using the provided context.
     If multiple files are present, use them equally.
 
     Context:
-    
     {
         get_context(user, user_input)}
     """
@@ -405,17 +403,17 @@ def index(request):
             )
 
         try:
-            # 1. Check generic questions first
+            
             answer = get_generic_answer(user_input)
 
-            # 2. If not generic, use RAG/context + LLM
+            
             if answer is None:
                 answer = chat_context(
                     user=user_data,
                     user_input=user_input
                 )
 
-            # 3. Save either type of response
+           
             Chat.objects.create(
                 user=request.user,
                 user_input=user_input,
@@ -427,7 +425,6 @@ def index(request):
                 response=answer
             )
 
-            # 4. Return response
             return JsonResponse({
                 "answer": answer
             })
@@ -439,54 +436,6 @@ def index(request):
                 {"error": str(e)},
                 status=500
             )
-
-
-    # if request.method == "POST" and "data" in request.POST:
-    #     user_input = request.POST.get("data", "").strip()
-
-    #     if not user_input:
-    #         return JsonResponse(
-    #             {"error": "Message cannot be empty"},
-    #             status=400
-    #         )
-
-    #     if user_data is None:
-    #         return JsonResponse(
-    #             {"error": "User must be authenticated"},
-    #             status=401
-    #         )
-
-    #     try:
-    #         answer = get_generic_answer(user_input)
-
-    #         if answer is None:
-    #             answer = chat_context(
-    #                 user=user_data,
-    #                 user_input=user_input
-    #             )
-
-    #             Chat.objects.create(
-    #                 user=request.user,
-    #                 user_input=user_input,
-    #                 response=answer
-    #             )
-
-    #             DatabaseChat.objects.create(
-    #                 user_input=user_input,
-    #                 response=answer
-    #             )
-
-    #             return JsonResponse({
-    #                 "answer": answer
-    #             })
-
-    #     except Exception as e:
-    #         print("CHAT ERROR:", repr(e))
-
-    #         return JsonResponse(
-    #             {"error": str(e)},
-    #             status=500
-    #         )
 
 
 
