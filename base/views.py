@@ -22,6 +22,7 @@ import trafilatura
 import tldextract
 import re
 import string
+import traceback
 
 
 
@@ -371,190 +372,212 @@ def transaction(request):
     return render(request, "pricing.html")
 
 
-def index(request):
+def _index(request):
     user_data = None
     youtube_url = None
     answer = None
 
-    if request.user.is_authenticated:
-        user_data = User.objects.get(id=request.user.id)
-
-        directory = (
-            Path(settings.MEDIA_ROOT)
-            / f"uploads/{user_data.email}"
-        )
-        directory.mkdir(parents=True, exist_ok=True)
+def index(request):
 
 
 
-    if request.method == "POST" and "data" in request.POST:
-        user_input = request.POST.get("data", "").strip()
+    try:
+        return _index(request)
 
-        if not user_input:
-            return JsonResponse(
-                {"error": "Message cannot be empty"},
-                status=400
+    except Exception as e:
+        traceback.print_exc()
+
+        return JsonResponse({
+            "answer": (
+                f"VIEW ERROR: {type(e).__name__}: {str(e)}\n\n"
+                f"{traceback.format_exc()}"
             )
+        }, status=500)
 
-        if user_data is None:
-            return JsonResponse(
-                {"error": "User must be authenticated"},
-                status=401
-            )
+    
+        # user_data = None
+        # youtube_url = None
+        # answer = None
 
-        try:
-            
-            answer = get_generic_answer(user_input)
+        # if request.user.is_authenticated:
+        #     user_data = User.objects.get(id=request.user.id)
 
-            
-            if answer is None:
-                answer = chat_context(
-                    user=user_data,
-                    user_input=user_input
-                )
-
-           
-            Chat.objects.create(
-                user=request.user,
-                user_input=user_input,
-                response=answer
-            )
-
-            DatabaseChat.objects.create(
-                user_input=user_input,
-                response=answer
-            )
-
-            return JsonResponse({
-                "answer": answer
-            })
-
-        # except Exception as e:
-        #     print("UPLOAD ERROR:", repr(e))
-
-        #     return JsonResponse(
-        #         {
-        #             "error": str(e),
-        #             "error_type": type(e).__name__,
-        #         },
-        #         status=500
+        #     directory = (
+        #         Path(settings.MEDIA_ROOT)
+        #         / f"uploads/{user_data.email}"
         #     )
-        except Exception as e:
-            return JsonResponse({
-                "answer": f"{type(e).__name__}: {str(e)}"
-            })
+        #     directory.mkdir(parents=True, exist_ok=True)
 
 
 
-    if request.method == "POST" and request.FILES.get("documents"):
-        uploaded_file = request.FILES["documents"]
+        # if request.method == "POST" and "data" in request.POST:
+        #     user_input = request.POST.get("data", "").strip()
 
-        try:
-            uploaded = UploadedFile.objects.create(
-                user=user_data,
-                file=uploaded_file,
-            )
+        #     if not user_input:
+        #         return JsonResponse(
+        #             {"error": "Message cannot be empty"},
+        #             status=400
+        #         )
 
-            print("Uploaded:", uploaded.file.name)
-            print("URL:", uploaded.file.url)
+        #     if user_data is None:
+        #         return JsonResponse(
+        #             {"error": "User must be authenticated"},
+        #             status=401
+        #         )
 
-            documents = load_documents(user=user_data)
+        #     try:
+                
+        #         answer = get_generic_answer(user_input)
 
-            print("Documents:", documents)
+                
+        #         if answer is None:
+        #             answer = chat_context(
+        #                 user=user_data,
+        #                 user_input=user_input
+        #             )
 
-            return redirect("chat")
+            
+        #         Chat.objects.create(
+        #             user=request.user,
+        #             user_input=user_input,
+        #             response=answer
+        #         )
 
-        except Exception as e:
-            print("UPLOAD ERROR:", repr(e))
-            raise
+        #         DatabaseChat.objects.create(
+        #             user_input=user_input,
+        #             response=answer
+        #         )
+
+        #         return JsonResponse({
+        #             "answer": answer
+        #         })
+
+        #     # except Exception as e:
+        #     #     print("UPLOAD ERROR:", repr(e))
+
+        #     #     return JsonResponse(
+        #     #         {
+        #     #             "error": str(e),
+        #     #             "error_type": type(e).__name__,
+        #     #         },
+        #     #         status=500
+        #     #     )
+        #     except Exception as e:
+        #         return JsonResponse({
+        #             "answer": f"{type(e).__name__}: {str(e)}"
+        #         })
 
 
-    if request.method == "POST" and request.POST.get("youtube"):
-        try:
-            youtube_url = request.POST.get("youtube")
 
-            youtube_title = get_title(youtube_url)
+        # if request.method == "POST" and request.FILES.get("documents"):
+        #     uploaded_file = request.FILES["documents"]
 
-            YoutbeLink.objects.create(
-                user=user_data,
-                name=youtube_url,
-                title=youtube_title
-            )
+        #     try:
+        #         uploaded = UploadedFile.objects.create(
+        #             user=user_data,
+        #             file=uploaded_file,
+        #         )
 
-            DatabaseLink.objects.create(
-                name=youtube_url,
-                title=youtube_title
-            )
+        #         print("Uploaded:", uploaded.file.name)
+        #         print("URL:", uploaded.file.url)
 
-            generate_script(
-                user=user_data,
-                youtube_url=youtube_url
-            )
+        #         documents = load_documents(user=user_data)
 
-            return redirect("chat")
+        #         print("Documents:", documents)
 
-        except Exception as e:
-            return JsonResponse(
-                {"error": str(e)},
-                status=400
-            )
+        #         return redirect("chat")
 
-    if request.method == "POST" and request.POST.get("url"):
-        url = request.POST.get("url")
+        #     except Exception as e:
+        #         print("UPLOAD ERROR:", repr(e))
+        #         raise
 
-        try:
-            user = request.user
 
-            extracted = tldextract.extract(url)
-            url_name = extracted.domain or "webpage"
+        # if request.method == "POST" and request.POST.get("youtube"):
+        #     try:
+        #         youtube_url = request.POST.get("youtube")
 
-            webpage_content = read_webpage(url)
+        #         youtube_title = get_title(youtube_url)
 
-            URLLink.objects.create(
-                user=user,
-                name=url
-            )
+        #         YoutbeLink.objects.create(
+        #             user=user_data,
+        #             name=youtube_url,
+        #             title=youtube_title
+        #         )
 
-            filename = (
-                f"{slugify(url_name) or 'webpage'}.txt"
-            )
+        #         DatabaseLink.objects.create(
+        #             name=youtube_url,
+        #             title=youtube_title
+        #         )
 
-            uploaded = UploadedFile(user=user)
+        #         generate_script(
+        #             user=user_data,
+        #             youtube_url=youtube_url
+        #         )
 
-            uploaded.file.save(
-                filename,
-                ContentFile(
-                    webpage_content.encode("utf-8")
-                ),
-                save=True,
-            )
+        #         return redirect("chat")
 
-            return redirect("chat")
+        #     except Exception as e:
+        #         return JsonResponse(
+        #             {"error": str(e)},
+        #             status=400
+        #         )
 
-        except Exception as e:
-            print("URL ERROR:", repr(e))
+        # if request.method == "POST" and request.POST.get("url"):
+        #     url = request.POST.get("url")
 
-            return JsonResponse(
-                {"error": str(e)},
-                status=400
-            )
+        #     try:
+        #         user = request.user
 
- 
+        #         extracted = tldextract.extract(url)
+        #         url_name = extracted.domain or "webpage"
 
-    file_names = UploadedFile.objects.filter(
-        user_id=request.user.id
-    )
+        #         webpage_content = read_webpage(url)
 
-    chat_data = Chat.objects.filter(
-        user_id=request.user.id
-    )
+        #         URLLink.objects.create(
+        #             user=user,
+        #             name=url
+        #         )
 
-    return render(
-        request,
-        "home.html",
-        {
-            "chat_data": chat_data,
-            "file_names": file_names,
-            "answer": answer,
-        }
-    )
+        #         filename = (
+        #             f"{slugify(url_name) or 'webpage'}.txt"
+        #         )
+
+        #         uploaded = UploadedFile(user=user)
+
+        #         uploaded.file.save(
+        #             filename,
+        #             ContentFile(
+        #                 webpage_content.encode("utf-8")
+        #             ),
+        #             save=True,
+        #         )
+
+        #         return redirect("chat")
+
+        #     except Exception as e:
+        #         print("URL ERROR:", repr(e))
+
+        #         return JsonResponse(
+        #             {"error": str(e)},
+        #             status=400
+        #         )
+
+    
+
+        # file_names = UploadedFile.objects.filter(
+        #     user_id=request.user.id
+        # )
+
+        # chat_data = Chat.objects.filter(
+        #     user_id=request.user.id
+        # )
+
+        # return render(
+        #     request,
+        #     "home.html",
+        #     {
+        #         "chat_data": chat_data,
+        #         "file_names": file_names,
+        #         "answer": answer,
+        #     }
+        # )
