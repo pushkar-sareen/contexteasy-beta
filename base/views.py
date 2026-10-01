@@ -36,7 +36,7 @@ NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY",)
 NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
-RESPONSE = None
+
 
 def health(request):
     return JsonResponse({"status": "ok"})
@@ -277,48 +277,66 @@ def get_generic_answer(user_input: str):
 
 
 
+# changed
 
 def chat_context(user, user_input):
     SYSTEM_PROMPT = f"""
     You are a helpful assistant.
-    if user asks questions from dictionary response from {GENERIC_QA} 
-    otherwise Answer ONLY using the provided context.
+    If user asks questions from dictionary respond from {GENERIC_QA}.
+    Otherwise answer ONLY using the provided context.
     If multiple files are present, use them equally.
 
     Context:
-    {
-        get_context(user, user_input)}
+    {get_context(user, user_input)}
     """
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT},
-            {"role": "user", "content": user_input}
-        ]
+    resp = requests.post(
+        NVIDIA_API_URL,
+        headers={
+            "Authorization": f"Bearer {NVIDIA_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": NVIDIA_MODEL,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT
+                },
+                {
+                    "role": "user",
+                    "content": user_input
+                },
+            ],
+            "max_tokens": 4096,
+        },
+        timeout=120,
     )
-    answer = response.choices[0].message.content
-    # resp = requests.post(
-    #                     NVIDIA_API_URL,
-    #                     headers={
-    #                         "Authorization": f"Bearer {NVIDIA_API_KEY}",
-    #                         "Content-Type": "application/json",
-    #                     },
-    #                     json={
-    #                         "model": NVIDIA_MODEL,
-    #                         "messages": [
-    #                             {"role": "system", "content": SYSTEM_PROMPT},
-    #                             {"role": "user", "content": user_input},
-    #                         ],
-    #                         "max_tokens": 4096,
-    #                     },
-    #                     timeout=120,
-    #                 )
-    # data = resp.json()
-    # answer = data['choices'][0]['message']['content'] 
+
+    try:
+        data = resp.json()
+    except ValueError:
+        print("NON-JSON RESPONSE:", resp.text)
+        raise RuntimeError("AI API returned invalid JSON")
+
+    if not resp.ok:
+        print("AI API ERROR:", resp.status_code, data)
+
+        raise RuntimeError(
+            f"AI API failed with status {resp.status_code}"
+        )
+
+    choices = data.get("choices")
+
+    if not choices:
+        print("MISSING CHOICES:", data)
+        raise RuntimeError("AI API returned no choices")
+
+    answer = choices[0]["message"]["content"]
+
+
 
     return answer
-
 
 
 
@@ -412,12 +430,7 @@ def index(request):
                 file=uploaded_file,
             )
 
-            print("Uploaded:", uploaded.file.name)
-            print("URL:", uploaded.file.url)
-
             documents = load_documents(user=user_data)
-
-            print("Documents:", documents)
 
             return redirect("chat")
 
@@ -519,8 +532,6 @@ def index(request):
                     user=user_data,
                     user_input=user_input
                 )
-                RESPONSE = chat_context(user=user_data,
-                    user_input=user_input)
         
             Chat.objects.create(
                 user=request.user,
@@ -536,17 +547,6 @@ def index(request):
             return JsonResponse({
                 "answer": answer
             })
-
-        # except Exception as e:
-        #     print("UPLOAD ERROR:", repr(e))
-
-        #     return JsonResponse(
-        #         {
-        #             "error": str(e),
-        #             "error_type": type(e).__name__,
-        #         },
-        #         status=500
-        #     )
         except Exception as e:
             print("CHAT ERROR:", repr(e))
 
@@ -572,6 +572,5 @@ def index(request):
             "chat_data": chat_data,
             "file_names": file_names,
             "answer": answer,
-            "response": RESPONSE
         }
     )
