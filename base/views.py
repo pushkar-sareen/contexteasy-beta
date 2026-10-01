@@ -399,65 +399,7 @@ def index(request):
 
 
 
-    if request.method == "POST" and "data" in request.POST:
-        user_input = request.POST.get("data", "").strip()
-
-        if not user_input:
-            return JsonResponse(
-                {"error": "Message cannot be empty"},
-                status=400
-            )
-
-        if user_data is None:
-            return JsonResponse(
-                {"error": "User must be authenticated"},
-                status=401
-            )
-
-        try:
-            answer = get_generic_answer(user_input)
-            
-            if answer is None:
-                answer = chat_context(
-                    user=user_data,
-                    user_input=user_input
-                )
-
-        
-            Chat.objects.create(
-                user=request.user,
-                user_input=user_input,
-                response=answer
-            )
-
-            DatabaseChat.objects.create(
-                user_input=user_input,
-                response=answer
-            )
-
-            return JsonResponse({
-                "answer": answer
-            })
-
-        # except Exception as e:
-        #     print("UPLOAD ERROR:", repr(e))
-
-        #     return JsonResponse(
-        #         {
-        #             "error": str(e),
-        #             "error_type": type(e).__name__,
-        #         },
-        #         status=500
-        #     )
-        except Exception as e:
-            print("CHAT ERROR:", repr(e))
-
-            return JsonResponse(
-                {
-                    "answer": f"{type(e).__name__}: {str(e)}"
-                },
-                status=500
-            )
+    
 
 
 
@@ -554,7 +496,65 @@ def index(request):
                 status=400
             )
 
+    if request.method == "POST" and "data" in request.POST:
+        user_input = request.POST.get("data", "").strip()
 
+        if not user_input:
+            return JsonResponse(
+                {"error": "Message cannot be empty"},
+                status=400
+            )
+
+        if user_data is None:
+            return JsonResponse(
+                {"error": "User must be authenticated"},
+                status=401
+            )
+
+        try:
+            answer = get_generic_answer(user_input)
+            
+            if answer is None:
+                answer = chat_context(
+                    user=user_data,
+                    user_input=user_input
+                )
+
+        
+            Chat.objects.create(
+                user=request.user,
+                user_input=user_input,
+                response=answer
+            )
+
+            DatabaseChat.objects.create(
+                user_input=user_input,
+                response=answer
+            )
+
+            return JsonResponse({
+                "answer": answer
+            })
+
+        # except Exception as e:
+        #     print("UPLOAD ERROR:", repr(e))
+
+        #     return JsonResponse(
+        #         {
+        #             "error": str(e),
+        #             "error_type": type(e).__name__,
+        #         },
+        #         status=500
+        #     )
+        except Exception as e:
+            print("CHAT ERROR:", repr(e))
+
+            return JsonResponse(
+                {
+                    "answer": f"{type(e).__name__}: {str(e)}"
+                },
+                status=500
+            )
 
     file_names = UploadedFile.objects.filter(
         user_id=request.user.id
