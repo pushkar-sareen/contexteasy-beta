@@ -440,16 +440,8 @@ def index(request):
         #         status=500
         #     )
         except Exception as e:
-            print("UPLOAD ERROR:", repr(e))
-            traceback.print_exc()
-
             return JsonResponse({
-                "answer": (
-                    f"UPLOAD ERROR\n"
-                    f"Type: {type(e).__name__}\n"
-                    f"Message: {str(e)}\n\n"
-                    f"Traceback:\n{traceback.format_exc()}"
-                )
+                "answer": f"{type(e).__name__}: {str(e)}"
             })
 
 
