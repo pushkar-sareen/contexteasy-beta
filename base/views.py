@@ -36,7 +36,7 @@ NVIDIA_API_KEY = os.environ.get("NVIDIA_API_KEY",)
 NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 NVIDIA_MODEL = "nvidia/nemotron-3-ultra-550b-a55b"
 
-
+RESPONSE = None
 
 def health(request):
     return JsonResponse({"status": "ok"})
@@ -519,7 +519,8 @@ def index(request):
                     user=user_data,
                     user_input=user_input
                 )
-
+                RESPONSE = chat_context(user=user_data,
+                    user_input=user_input)
         
             Chat.objects.create(
                 user=request.user,
@@ -571,5 +572,6 @@ def index(request):
             "chat_data": chat_data,
             "file_names": file_names,
             "answer": answer,
+            "response": RESPONSE
         }
     )
